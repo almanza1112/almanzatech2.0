@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Main from './components/Main';
 import WhatWeDo from './components/WhatWeDo'
 import WhoWeAre from './components/WhoWeAre'
+import ContactUs from './components/ContactUs'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Main/>
       <WhatWeDo/>
       <WhoWeAre/>
+      <ContactUs/>
     </div>
 
    
