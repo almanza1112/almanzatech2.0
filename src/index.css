@@ -6,7 +6,7 @@
 @layer base {
 
     body {
-        @apply text-white;
+        @apply text-gray-200;
     }
     
     li {
@@ -19,11 +19,18 @@
     .section-style {
         @apply w-full;
         @apply h-screen;
-        @apply bg-[#123e64];
+        @apply bg-black;
+    }
+
+    .section-title {
+        @apply text-4xl;
+        @apply font-bold;
+        @apply inline;
+        @apply border-b-2;
+        @apply border-[#5ce1e6];
     }
 
     .flat-btn {
-        @apply text-white;
         @apply border-2;
         @apply hover:bg-[#5ce1e6];
         @apply hover:border-[#5ce1e6];
