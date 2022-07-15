@@ -1,14 +1,14 @@
 import React, {useState} from 'react'
 import {Link} from 'react-scroll'
 import {FaBars, FaTimes} from 'react-icons/fa'
-import Logo from '../assets/AlmanzaTech.png'
+import Logo from '../assets/almanzatech.png'
 
 const Navbar = () => {
 
     const [nav, setNav] = useState(false)
     const handleClick = () => setNav(!nav)
   return (
-    <div className='fixed w-full h-[80px] flex justify-between items-center px-4 bg-transparent'>
+    <div className='fixed w-full h-[80px] flex justify-between items-center px-4 bg-transparent z-10'>
        <div>
             <img src={Logo} alt="" style={{width:'250px'}}/>
         </div>
