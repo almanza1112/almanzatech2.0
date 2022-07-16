@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Link} from 'react-scroll'
-import {FaBars, FaTimes} from 'react-icons/fa'
+import {FaTimes} from 'react-icons/fa'
+import {HiMenuAlt4} from 'react-icons/hi'
 import Logo from '../assets/almanzatech.png'
 
 const Navbar = () => {
@@ -8,24 +9,24 @@ const Navbar = () => {
     const [nav, setNav] = useState(false)
     const handleClick = () => setNav(!nav)
   return (
-    <div className='fixed w-full h-[80px] flex justify-between items-center px-4 bg-transparent z-10'>
-       <div>
+    <div className='fixed w-full h-20 flex justify-between items-center px-4 bg-transparent z-10'>
+       <div className=''>
             <img src={Logo} alt="" style={{width:'250px'}}/>
         </div>
 
         {/* Menu */}
         <ul className='hidden md:flex'>
-                <li className='hover:text-[#5ce1e6] hover:font-bold'>
+                <li className='hover:text-[#5ce1e6]'>
                     <Link to="whatWeDo" smooth={true} duration={500}>
                         WHAT WE DO
                     </Link>
                 </li>
-                <li className='hover:text-[#5ce1e6] hover:font-bold'>
+                <li className='hover:text-[#5ce1e6]'>
                     <Link to="whoWeAre" smooth={true} duration={500}>
                         WHO WE ARE
                     </Link>
                 </li>
-                <li className='hover:text-[#5ce1e6] hover:font-bold'>
+                <li className='hover:text-[#5ce1e6]'>
                     <Link to="contactUs" smooth={true} duration={500}>
                         CONTACT US
                     </Link>
@@ -34,7 +35,7 @@ const Navbar = () => {
 
         {/* Hamburger */}
         <div onClick={handleClick} className='md:hidden z-10'>
-            {!nav ? <FaBars/> : <FaTimes/>}
+            {!nav ? <HiMenuAlt4/> : <FaTimes/>}
         </div>
 
         {/* Mobile Menu */}
