@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --primary-color: #5ce1e6;
+}
 
 @layer base {
 
     body {
-        @apply text-gray-200;
+        @apply font-light;
+        @apply text-white;
     }
     
     li {
@@ -18,22 +22,36 @@
 @layer utilities {
     .section-style {
         @apply w-full;
-        @apply h-screen;
+        @apply md:h-screen;
         @apply bg-black;
     }
 
     .section-title {
         @apply text-4xl;
         @apply font-bold;
-        @apply inline;
-        @apply border-b-2;
-        @apply border-[#5ce1e6];
+        @apply inline; 
+    }
+
+    {/* What We Do */}
+    .wwd-item{
+        @apply grid;
+        @apply grid-cols-4;
+        @apply gap-8;
+        @apply p-8;
+        @apply border;
+        @apply border-gray-800;
+    }
+
+    .wwd-item-title {
+        @apply mb-2;
+        @apply font-bold;
     }
 
     .flat-btn {
         @apply border-2;
-        @apply hover:bg-[#5ce1e6];
-        @apply hover:border-[#5ce1e6];
+        @apply bg-primary;
+        @apply border-primary;
+        @apply font-extrabold;
         @apply px-6;
         @apply py-3;
         @apply flex;
@@ -62,7 +80,6 @@ video {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
 }
 
 .overlay {

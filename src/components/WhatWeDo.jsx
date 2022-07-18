@@ -1,30 +1,72 @@
 import React from 'react'
+import {CgWebsite} from 'react-icons/cg'
+import {FaMobileAlt} from 'react-icons/fa'
+import {BsFillPeopleFill} from 'react-icons/bs'
+import {GiAutoRepair} from 'react-icons/gi'
 
 const WhatWeDo = () => {
   return (
     <div name='whatWeDo' className='section-style'>
-        <div className='max-w-[1000px] w-full h-full mx-auto p-4 justify-center'>
-            <div className='grid grid-cols-3 h-full'>
-                <div className='flex items-center'>
-                    <div className='section-title'>WHAT WE DO</div>
-
+        <div className='max-w-screen-2xl w-full h-full mx-auto p-8 justify-center flex'>
+            <div className='w-full grid md:grid-cols-2 gap-8 items-center'>
+                <div className='flex flex-col'>
+                    <div className='section-title'>What We Do</div>
+                    <div className='my-8'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                    <div className=''>
+                        <button className='flat-btn'>GET A QUOTE</button>
+                    </div>
                 </div>
-                <div className='col-span-2 flex flex-col justify-center items-start'>
-                    <div className='py-4'>
-                        <div className='text-xl'>WEBSITES</div>
-                        <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                <div className='grid sm:grid-cols-2 gap-4'>
+                    {/* item - websites */}
+                    <div className='wwd-item '>
+                        <div className='flex justify-center items-center'>
+                            <div className='border-2 border-primary rounded-full p-4 '>
+                                <CgWebsite size={25} color='#5ce1e6' />
+                            </div>
+                        </div>
+                        <div className='col-span-3'>
+                            <div className='wwd-item-title'>Websites</div>
+                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                        </div>
                     </div>
-                    <div className='py-4'>
-                        <div className='text-xl'>MOBILE APPLICATIONS</div>
-                        <div>We can help you increase traction and returning visitors by trusting us with top class user experience.</div>
+
+                    {/* item - mobile applications */}
+                    <div className='wwd-item'>
+                        <div className='flex justify-center items-center'>
+                            <div className='border-2 border-primary rounded-full p-4 '>
+                                <FaMobileAlt size={25} color='#5ce1e6' />
+                            </div>
+                        </div>
+                        <div className='col-span-3'>
+                            <div className='wwd-item-title'>Mobile Applications</div>
+                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                        </div>
                     </div>
-                    <div className='py-4'>
-                        <div className='text-xl'>IT</div>
-                        <div>From fixing your computer, newtwork issues, or office/home set up, we have you covered.</div>
+
+                    {/* item - IT support */}
+                    <div className='wwd-item'>
+                        <div className='flex justify-center items-center'>
+                            <div className='border-2 border-primary rounded-full p-4 '>
+                                <GiAutoRepair size={25} color='#5ce1e6' />
+                            </div>
+                        </div>
+                        <div className='col-span-3'>
+                            <div className='wwd-item-title'>IT Support</div>
+                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                        </div>
                     </div>
-                    <div className='py-4'>
-                        <div className='text-xl'>CONSULTING</div>
-                        <div>If you don't know where to start or are stuck on in issue, we will point you in the right direction.</div>
+
+                    {/* item - consulting */}
+                    <div className='wwd-item'>
+                        <div className='flex justify-center items-center'>
+                            <div className='border-2 border-primary rounded-full p-4 '>
+                                <BsFillPeopleFill size={25} color='#5ce1e6' />
+                            </div>
+                        </div>
+                        <div className='col-span-3'>
+                            <div className='wwd-item-title'>Consulting</div>
+                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                        </div>
                     </div>
                     
                 </div>
