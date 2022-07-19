@@ -1,6 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const ContactUs = () => {
+
+  const [didSend, setMessage] = useState(false);
+  const form = document.getElementById('AlmanzaTechForm');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(document.getElementById('AlmanzaTechForm'))
+    }).then(
+      response => response.json()
+    ).then((html) => {
+      setMessage(true)
+    });
+  }); 
   return (
     <div name='contactUs' className='section-style'>
       <div className='max-w-screen-2xl w-full h-full mx-auto p-8 flex justify-center'>
@@ -30,7 +45,8 @@ const ContactUs = () => {
             </div>
           </div>
 
-          <form method='POST' action='' className='flex flex-col w-full'>
+          <form id='AlmanzaTechForm' method='POST' action='https://sheetdb.io/api/v1/i2bbvaqeluzn2' className='flex flex-col w-full'>
+            <div className={didSend ? 'text-xl md:text-2xl mb-8 font-bold' : 'hidden'}>Message sent!</div>
             <div className='grid md:grid-cols-2 md:gap-4'>
               <input className='mb-4 p-2 bg-gray-100 text-black' type="text" placeholder='Name' name='name'/>
               <input className='mb-4 p-2 bg-gray-100 text-black' type="email" placeholder='Email' name='email'/>
