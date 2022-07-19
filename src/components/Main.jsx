@@ -11,7 +11,7 @@ const Main = () => {
               <div className='text-2xl sm:text-4xl md:text-6xl font-bold'>WE BUILD YOUR VISION</div>  
               <div className=' my-4'>Serving businesses and entrepreneurs since 2019</div>
               <div>
-                <Link to="whatWeDo" smooth={true} duration={500}>
+                <Link to="whatWeDo" smooth={true} duration={500} offset={-80}>
                   <button className='flat-btn my-2'>LEARN MORE ABOUT US</button>
                 </Link>
               </div>
