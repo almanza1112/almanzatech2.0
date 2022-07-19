@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-scroll'
-import bgVideo from '../assets/bgVideo.mp4'
+import bgVideo from '../assets/main_vid_bg.mp4'
 
 const Main = () => {
   return (

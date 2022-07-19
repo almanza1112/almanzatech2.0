@@ -14,8 +14,8 @@ const WhatWeDo = () => {
                     </div>
                     <div className='my-8 md:my-16'>
                         <p>
-                            Every business nowadays needs to have an interent presence as well as a good technological infrastructure to
-                            market, scale, and adapt as your business grows. This is where we, at AlmanzaTech, excel in. We create and design 
+                            Every business nowadays needs to have an internet presence as well as a good technological infrastructure to
+                            market, scale, and adapt as your business grows. This is where we at AlmanzaTech excel in. We create and design 
                             custom websites and mobile apps with the most modern technologies. We also offer amazing IT support and consulting
                             so that your business stays up and running. Join our network of amazing engineers today!
                         </p>
