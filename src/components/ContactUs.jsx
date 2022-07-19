@@ -5,7 +5,7 @@ const ContactUs = () => {
   const [didSend, setMessage] = useState(false);
   const form = document.getElementById('AlmanzaTechForm');
 
-  form.addEventListener('submit', e => {
+  /*form.addEventListener('submit', e => {
     e.preventDefault();
     fetch(form.action, {
       method: 'POST',
@@ -15,7 +15,7 @@ const ContactUs = () => {
     ).then((html) => {
       setMessage(true)
     });
-  }); 
+  }); */
   return (
     <div name='contactUs' className='section-style'>
       <div className='max-w-screen-2xl w-full h-full mx-auto p-8 flex justify-center'>
