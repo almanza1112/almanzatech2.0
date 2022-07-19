@@ -6,10 +6,25 @@ import Logo from '../assets/almanzatech.png'
 
 const Navbar = () => {
 
+    // Setting mobile view
     const [nav, setNav] = useState(false)
     const handleClick = () => setNav(!nav)
+
+    // Change navbar when scrolling
+    const [color, setColor] = useState(false)
+    const changeColor = () => {
+        if (window.scrollY >= 80){
+            setColor(true)
+        } else {
+            setColor(false)
+        }
+    }
+
+    window.addEventListener('scroll', changeColor)
+
+    
   return (
-    <div className='fixed w-full h-20 flex justify-between items-center px-4 bg-transparent z-10'>
+    <div className={color ? 'bg-black border-b duration-750 border-primary fixed w-full h-20 flex justify-between items-center px-4 z-10' : 'fixed w-full h-20 flex justify-between items-center px-4 bg-transparent z-10'}>
        <div className=''>
             <img src={Logo} alt="" style={{width:'250px'}}/>
         </div>
