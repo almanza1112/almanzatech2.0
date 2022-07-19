@@ -1,4 +1,5 @@
 import React from 'react'
+import WhoWeAreImg from '../assets/whoweare.png'
 
 const WhoWeAre = () => {
   return (
@@ -6,7 +7,7 @@ const WhoWeAre = () => {
       <div className='max-w-screen-2xl w-full h-full mx-auto p-8 flex justify-center'>
         <div className='w-full grid md:grid-cols-2 gap-8 items-center'>
           <div>
-
+            <img src={WhoWeAreImg}/>
           </div>
 
           <div className='flex flex-col'>
