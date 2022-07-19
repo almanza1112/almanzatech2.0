@@ -31,19 +31,19 @@ const Navbar = () => {
 
         {/* Menu */}
         <ul className='hidden md:flex'>
-                <li className='hover:text-[#5ce1e6]'>
+                <li className='hover:text-primary'>
                     <Link to="whatWeDo" smooth={true} duration={500}>
-                        WHAT WE DO
+                        <p className='py-8'>WHAT WE DO</p>
                     </Link>
                 </li>
-                <li className='hover:text-[#5ce1e6]'>
+                <li className='hover:text-primary'>
                     <Link to="whoWeAre" smooth={true} duration={500}>
-                        WHO WE ARE
+                        <p className='py-8'>WHO WE ARE</p>
                     </Link>
                 </li>
-                <li className='hover:text-[#5ce1e6]'>
+                <li className='hover:text-primary'>
                     <Link to="contactUs" smooth={true} duration={500}>
-                        CONTACT US
+                        <p className='py-8'>CONTACT US</p>
                     </Link>
                 </li>
         </ul>
@@ -54,25 +54,23 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        <ul className={!nav ? 'hidden' : 'absolute top-0 left-0 w-full h-screen bg-[#123e64] flex flex-col justify-center items-center'}>
-                <li className='py-6 text-4xl'>
-                    <Link onClick={handleClick} to="whatWeDo" smooth={true} duration={500}>
-                        WHAT WE DO
+        <ul className={nav ? 'absolute top-0 right-0 pt-4 w-full h-screen bg-black duration-500 border-l-8 border-primary' : 'absolute right-[-100%] pt-4 h-screen w-full '}>
+                <li className='text-xl'>
+                    <Link onClick={handleClick} to="whatWeDo" smooth={true} duration={500} offset={-80}>
+                        <p className='py-4 w-full'>WHAT WE DO</p>
                     </Link>
                 </li>
-                <li className='py-6 text-4xl'>
-                    <Link onClick={handleClick} to="whoWeAre" smooth={true} duration={500}>
-                        WHO WE ARE
+                <li className='text-xl'>
+                    <Link onClick={handleClick} to="whoWeAre" smooth={true} duration={500} offset={-80}>
+                        <p className='py-4 w-full'>WHO WE ARE</p>
                     </Link>
                 </li>
-                <li className='py-6 text-4xl'>
-                    <Link onClick={handleClick} to="contactUs" smooth={true} duration={500}>
-                        CONTACT US
+                <li className='text-xl'>
+                    <Link onClick={handleClick} to="contactUs" smooth={true} duration={500} offset={-80}>
+                        <p className='py-4 w-full'>CONTACT US</p>
                     </Link>
                 </li>
-            </ul>
-
-
+        </ul>
     </div>
   )
 }

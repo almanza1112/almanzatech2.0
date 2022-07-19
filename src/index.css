@@ -14,7 +14,7 @@
     }
     
     li {
-        @apply px-4;
+        @apply p-4;
         @apply cursor-pointer;
     }
 }
