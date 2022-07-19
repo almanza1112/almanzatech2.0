@@ -29,6 +29,8 @@
     .section-title {
         @apply text-4xl;
         @apply font-bold;
+        @apply border-b-8;
+        @apply border-primary;
         @apply inline; 
     }
 
@@ -45,6 +47,12 @@
     .wwd-item-title {
         @apply mb-2;
         @apply font-bold;
+    }
+
+    {/* Contact Us */}
+    .cu-item-title{
+        @apply font-bold;
+        @apply mb-4;
     }
 
     .flat-btn {
