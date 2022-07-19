@@ -12,7 +12,15 @@ const WhatWeDo = () => {
                     <div className='text-left'>
                         <p className='section-title'>What We Do</p>
                     </div>
-                    <div className='my-8 md:my-16'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                    <div className='my-8 md:my-16'>
+                        <p>
+                            Every business nowadays needs to have an interent presence as well as a good technological infrastructure to
+                            market, scale, and adapt as your business grows. This is where we, at AlmanzaTech, excel in. We create and design 
+                            custom websites and mobile apps with the most modern technologies. We also offer amazing IT support and consulting
+                            so that your business stays up and running. Join our network of amazing engineers today!
+                        </p>
+                    </div>
+                    
                     <div className=''>
                         <button className='flat-btn'>GET A QUOTE</button>
                     </div>
@@ -27,7 +35,7 @@ const WhatWeDo = () => {
                         </div>
                         <div className='col-span-3'>
                             <div className='wwd-item-title'>Websites</div>
-                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                            <p>We help you increase traction and returning visitors by our top class user experience and design.</p>
                         </div>
                     </div>
 
@@ -53,7 +61,7 @@ const WhatWeDo = () => {
                         </div>
                         <div className='col-span-3'>
                             <div className='wwd-item-title'>IT Support</div>
-                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                            <p>From fixing your computer, newtwork issues, or office and home set up, we have you covered.</p>
                         </div>
                     </div>
 
@@ -66,7 +74,7 @@ const WhatWeDo = () => {
                         </div>
                         <div className='col-span-3'>
                             <div className='wwd-item-title'>Consulting</div>
-                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                            <p>If you don't know where to start or are stuck on an issue, we will point you in the right direction to get things rolling.</p>
                         </div>
                     </div>
                     
