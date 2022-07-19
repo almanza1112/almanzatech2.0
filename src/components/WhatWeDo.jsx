@@ -1,8 +1,7 @@
 import React from 'react'
 import {CgWebsite} from 'react-icons/cg'
 import {FaMobileAlt} from 'react-icons/fa'
-import {BsFillPeopleFill} from 'react-icons/bs'
-import {GiAutoRepair} from 'react-icons/gi'
+import {BsFillPeopleFill, BsTools} from 'react-icons/bs'
 
 const WhatWeDo = () => {
   return (
@@ -49,7 +48,7 @@ const WhatWeDo = () => {
                     <div className='wwd-item'>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-4 '>
-                                <GiAutoRepair size={25} color='#5ce1e6' />
+                                <BsTools size={25} color='#5ce1e6' />
                             </div>
                         </div>
                         <div className='col-span-3'>
