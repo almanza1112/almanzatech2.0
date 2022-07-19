@@ -10,8 +10,10 @@ const WhatWeDo = () => {
         <div className='max-w-screen-2xl w-full h-full mx-auto p-8 justify-center flex'>
             <div className='w-full grid md:grid-cols-2 gap-8 items-center'>
                 <div className='flex flex-col'>
-                    <div className='section-title'>What We Do</div>
-                    <div className='my-8'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                    <div className='text-left'>
+                        <p className='section-title'>What We Do</p>
+                    </div>
+                    <div className='my-16'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
                     <div className=''>
                         <button className='flat-btn'>GET A QUOTE</button>
                     </div>
