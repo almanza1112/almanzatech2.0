@@ -4,13 +4,13 @@ const ContactUs = () => {
   return (
     <div name='contactUs' className='section-style'>
       <div className='max-w-screen-2xl w-full h-full mx-auto p-8 flex justify-center'>
-        <div className='w-full grid grid-cols-2 gap-8 items-center'>
+        <div className='w-full grid md:grid-cols-2 gap-8 items-center'>
           <div className='flex flex-col'>
-            <div className='text-left mb-16'>
+            <div className='text-left md:mb-16 mb-8'>
               <p className='section-title'>Contact Us</p>
             </div>
 
-            <div className='grid grid-cols-2 gap-12'>
+            <div className='grid md:grid-cols-2 md:gap-16 gap-8'>
               {/* Item */}
               <div>
                 <p className='cu-item-title'>Email</p>
@@ -31,10 +31,9 @@ const ContactUs = () => {
           </div>
 
           <form method='POST' action='' className='flex flex-col w-full'>
-            <div className='grid grid-cols-2 gap-4'>
-            <input className='my-4 p-2 bg-gray-100 text-black' type="text" placeholder='Name' name='name'/>
-            <input className='my-4 p-2 bg-gray-100 text-black' type="email" placeholder='Email' name='email'/>
-
+            <div className='grid md:grid-cols-2 md:gap-4'>
+              <input className='mb-4 p-2 bg-gray-100 text-black' type="text" placeholder='Name' name='name'/>
+              <input className='mb-4 p-2 bg-gray-100 text-black' type="email" placeholder='Email' name='email'/>
             </div>
             <input className='mb-4 p-2 bg-gray-100 text-black' type="text" placeholder='Subject' name='subject'/>
            

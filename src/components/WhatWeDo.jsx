@@ -12,16 +12,16 @@ const WhatWeDo = () => {
                     <div className='text-left'>
                         <p className='section-title'>What We Do</p>
                     </div>
-                    <div className='my-16'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                    <div className='my-8 md:my-16'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
                     <div className=''>
                         <button className='flat-btn'>GET A QUOTE</button>
                     </div>
                 </div>
-                <div className='grid sm:grid-cols-2 gap-4'>
+                <div className='grid md:grid-cols-2 gap-4'>
                     {/* item - websites */}
                     <div className='wwd-item '>
                         <div className='flex justify-center items-center'>
-                            <div className='border-2 border-primary rounded-full p-4 '>
+                            <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <CgWebsite size={25} color='#5ce1e6' />
                             </div>
                         </div>
@@ -34,7 +34,7 @@ const WhatWeDo = () => {
                     {/* item - mobile applications */}
                     <div className='wwd-item'>
                         <div className='flex justify-center items-center'>
-                            <div className='border-2 border-primary rounded-full p-4 '>
+                            <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <FaMobileAlt size={25} color='#5ce1e6' />
                             </div>
                         </div>
@@ -47,7 +47,7 @@ const WhatWeDo = () => {
                     {/* item - IT support */}
                     <div className='wwd-item'>
                         <div className='flex justify-center items-center'>
-                            <div className='border-2 border-primary rounded-full p-4 '>
+                            <div className='border-2 border-primary rounded-full p-2 md:p-4  '>
                                 <BsTools size={25} color='#5ce1e6' />
                             </div>
                         </div>
@@ -60,7 +60,7 @@ const WhatWeDo = () => {
                     {/* item - consulting */}
                     <div className='wwd-item'>
                         <div className='flex justify-center items-center'>
-                            <div className='border-2 border-primary rounded-full p-4 '>
+                            <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <BsFillPeopleFill size={25} color='#5ce1e6' />
                             </div>
                         </div>
