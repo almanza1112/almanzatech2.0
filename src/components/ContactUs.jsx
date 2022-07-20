@@ -6,9 +6,10 @@ const ContactUs = () => {
 
   const [didSend, setMessage] = useState(false);
   const [isSending, setSending] = useState(false);
-  const form = document.getElementById('AlmanzaTechForm')
 
   const handleSubmit = (e) => {
+    const form = document.getElementById('AlmanzaTechForm')
+
     e.preventDefault();
     setSending(true)
     fetch(form.action, {
@@ -65,12 +66,12 @@ const ContactUs = () => {
               </div>
             </div>
             <div className='grid md:grid-cols-2 md:gap-4'>
-              <input className='mb-4 p-2 bg-gray-100 text-black' type="text" placeholder='Name' name='name' required='true'/>
-              <input className='mb-4 p-2 bg-gray-100 text-black' type="email" placeholder='Email' name='email' required='true'/>
+              <input className='mb-4 p-2 bg-gray-100 text-black' type="text" placeholder='Name' name='name' required={true}/>
+              <input className='mb-4 p-2 bg-gray-100 text-black' type="email" placeholder='Email' name='email' required={true}/>
             </div>
             <input className='mb-4 p-2 bg-gray-100 text-black' type="text" placeholder='Subject' name='subject'/>
            
-            <textarea className='bg-gray-100 text-black p-2' name="message" rows="5" placeholder='Message' required='true'></textarea>
+            <textarea className='bg-gray-100 text-black p-2' name="message" rows="5" placeholder='Message' required={true}></textarea>
             <div className=''>
               <button className='flat-btn my-8 '>SUBMIT<ImSpinner2 className={isSending ? 'animate-spin h-5 w-5 ml-3' : 'hidden'}  viewBox="0 0 16 16"/></button>
             </div>
