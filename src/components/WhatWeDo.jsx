@@ -2,8 +2,18 @@ import React from 'react'
 import {CgWebsite} from 'react-icons/cg'
 import {FaMobileAlt} from 'react-icons/fa'
 import {BsFillPeopleFill, BsTools} from 'react-icons/bs'
+import { useInView } from 'react-intersection-observer'
 
 const WhatWeDo = () => {
+    const options = {triggerOnce: true, threshold: .1}
+    const {ref: btnRef, inView: btnVis} = useInView(options);
+    const {ref: pRef, inView: pVis} = useInView(options);
+    const {ref: wRef, inView: wVis} = useInView(options);
+    const {ref: mRef, inView: mVis} = useInView(options);
+    const {ref: iRef, inView: iVis} = useInView(options);
+    const {ref: cRef, inView: cVis} = useInView(options);
+
+    
   return (
     <div name='whatWeDo' className='section-style'>
         <div className='max-w-screen-2xl w-full h-full mx-auto p-8 justify-center flex'>
@@ -12,7 +22,7 @@ const WhatWeDo = () => {
                     <div className='text-left'>
                         <p className='section-title'>What We Do</p>
                     </div>
-                    <div className='my-8 md:my-16'>
+                    <div ref={pRef} className={pVis ? 'animate-in slide-in-from-left duration-700 my-8 md:my-16' : 'my-8 md:my-16 '}>
                         <p>
                             Every business nowadays needs to have an internet presence as well as a good technological infrastructure to
                             market, scale, and adapt as your business grows. This is where we at AlmanzaTech excel in. We create and design 
@@ -21,13 +31,13 @@ const WhatWeDo = () => {
                         </p>
                     </div>
                     
-                    <div className=''>
-                        <button className='flat-btn'>GET A QUOTE</button>
+                    <div >
+                        <button ref={btnRef} className={btnVis ? 'animate-in slide-in-from-left duration-700 flat-btn' : 'flat-btn'}>GET A QUOTE</button>
                     </div>
                 </div>
                 <div className='grid md:grid-cols-2 gap-4'>
                     {/* item - websites */}
-                    <div className='wwd-item '>
+                    <div ref={wRef} className={wVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <CgWebsite size={25} color='#5ce1e6' />
@@ -40,7 +50,7 @@ const WhatWeDo = () => {
                     </div>
 
                     {/* item - mobile applications */}
-                    <div className='wwd-item'>
+                    <div ref={mRef} className={mVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <FaMobileAlt size={25} color='#5ce1e6' />
@@ -53,7 +63,7 @@ const WhatWeDo = () => {
                     </div>
 
                     {/* item - IT support */}
-                    <div className='wwd-item'>
+                    <div ref={iRef} className={iVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4  '>
                                 <BsTools size={25} color='#5ce1e6' />
@@ -66,7 +76,7 @@ const WhatWeDo = () => {
                     </div>
 
                     {/* item - consulting */}
-                    <div className='wwd-item'>
+                    <div ref={cRef} className={cVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <BsFillPeopleFill size={25} color='#5ce1e6' />
