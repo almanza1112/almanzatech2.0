@@ -6,7 +6,7 @@ const Main = () => {
   return (
         <div className='main'>
           <div className='overlay'></div>
-          <video src={bgVideo} autoPlay loop muted/>
+          <video src={bgVideo} autoPlay loop muted playsInline/>
             <div className='main-content'>
               <div className='text-2xl sm:text-4xl md:text-6xl font-bold'>WE BUILD YOUR VISION</div>  
               <div className=' my-4'>Serving businesses and entrepreneurs since 2019</div>
