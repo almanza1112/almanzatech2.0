@@ -7,7 +7,7 @@ const WhoWeAre = () => {
       <div className='max-w-screen-2xl w-full h-full mx-auto p-8 flex justify-center'>
         <div className='w-full grid md:grid-cols-2 md:gap-8 items-center '>
           <div>
-            <img src={WhoWeAreImg}/>
+            <img loading='lazy' src={WhoWeAreImg}/>
           </div>
 
           <div className='flex flex-col order-first md:order-last'>
