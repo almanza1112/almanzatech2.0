@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-scroll'
 import {CgWebsite} from 'react-icons/cg'
 import {FaMobileAlt} from 'react-icons/fa'
 import {BsFillPeopleFill, BsTools} from 'react-icons/bs'
@@ -22,9 +23,9 @@ const WhatWeDo = () => {
                         </p>
                     </div>
                     
-                    <div >
+                    <Link to="contactUs" smooth={true} duration={500} offset={-80}>
                         <button className='flat-btn'>GET A QUOTE</button>
-                    </div>
+                    </Link>
                 </div>
                 <div className='grid md:grid-cols-2 gap-4'>
                     {/* item - websites */}
