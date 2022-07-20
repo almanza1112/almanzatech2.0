@@ -5,7 +5,7 @@ import {BsFillPeopleFill, BsTools} from 'react-icons/bs'
 import { useInView } from 'react-intersection-observer'
 
 const WhatWeDo = () => {
-    const options = {triggerOnce: true, threshold: .1}
+    const options = {triggerOnce: true}
     const {ref: btnRef, inView: btnVis} = useInView(options);
     const {ref: pRef, inView: pVis} = useInView(options);
     const {ref: wRef, inView: wVis} = useInView(options);
@@ -22,7 +22,7 @@ const WhatWeDo = () => {
                     <div className='text-left'>
                         <p className='section-title'>What We Do</p>
                     </div>
-                    <div ref={pRef} className={pVis ? 'animate-in slide-in-from-left duration-700 my-8 md:my-16' : 'my-8 md:my-16 '}>
+                    <div ref={pRef} className={pVis ? 'animate-in slide-in-from-left my-8 md:my-16' : 'my-8 md:my-16 '}>
                         <p>
                             Every business nowadays needs to have an internet presence as well as a good technological infrastructure to
                             market, scale, and adapt as your business grows. This is where we at AlmanzaTech excel in. We create and design 
@@ -32,12 +32,12 @@ const WhatWeDo = () => {
                     </div>
                     
                     <div >
-                        <button ref={btnRef} className={btnVis ? 'animate-in slide-in-from-left duration-700 flat-btn' : 'flat-btn'}>GET A QUOTE</button>
+                        <button ref={btnRef} className={btnVis ? 'animate-in slide-in-from-left flat-btn' : 'flat-btn'}>GET A QUOTE</button>
                     </div>
                 </div>
                 <div className='grid md:grid-cols-2 gap-4'>
                     {/* item - websites */}
-                    <div ref={wRef} className={wVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
+                    <div ref={wRef} className={wVis ? 'wwd-item animate-in slide-in-from-right':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <CgWebsite size={25} color='#5ce1e6' />
@@ -50,7 +50,7 @@ const WhatWeDo = () => {
                     </div>
 
                     {/* item - mobile applications */}
-                    <div ref={mRef} className={mVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
+                    <div ref={mRef} className={mVis ? 'wwd-item animate-in slide-in-from-right':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <FaMobileAlt size={25} color='#5ce1e6' />
@@ -63,7 +63,7 @@ const WhatWeDo = () => {
                     </div>
 
                     {/* item - IT support */}
-                    <div ref={iRef} className={iVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
+                    <div ref={iRef} className={iVis ? 'wwd-item animate-in slide-in-from-right':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4  '>
                                 <BsTools size={25} color='#5ce1e6' />
@@ -76,7 +76,7 @@ const WhatWeDo = () => {
                     </div>
 
                     {/* item - consulting */}
-                    <div ref={cRef} className={cVis ? 'wwd-item animate-in slide-in-from-right duration-700':'wwd-item '}>
+                    <div ref={cRef} className={cVis ? 'wwd-item animate-in slide-in-from-righ':'wwd-item '}>
                         <div className='flex justify-center items-center'>
                             <div className='border-2 border-primary rounded-full p-2 md:p-4 '>
                                 <BsFillPeopleFill size={25} color='#5ce1e6' />
