@@ -4,6 +4,7 @@ import WhatWeDo from './components/WhatWeDo'
 import WhoWeAre from './components/WhoWeAre'
 import ContactUs from './components/ContactUs'
 import AdvantagesOfWorkingWithUs from "./components/AdvantagesOfWorkingWithUs";
+import ThePowerOfCustomization from "./components/ThePowerOfCustomization";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Navbar/>
       <Main/>
       <WhatWeDo/>
+      <ThePowerOfCustomization/>
       <WhoWeAre/>
       <AdvantagesOfWorkingWithUs/>
       <ContactUs/>
