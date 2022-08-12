@@ -22,8 +22,8 @@
 @layer utilities {
     .section-style {
         @apply w-full;
-        @apply md:h-screen;
         @apply bg-black;
+        @apply p-8 md:py-16;
     }
 
     .section-title {

@@ -8,7 +8,7 @@ const WhatWeDo = () => {
 
   return (
     <div name='whatWeDo' className='section-style'>
-        <div className='max-w-screen-2xl w-full h-full mx-auto p-8 justify-center flex'>
+        <div className='max-w-screen-2xl w-full h-full mx-auto justify-center flex'>
             <div className='w-full grid md:grid-cols-2 gap-8 items-center'>
                 <div className='flex flex-col'>
                     <div className='text-left'>

@@ -4,7 +4,7 @@ import WhoWeAreImg from '../assets/whoweare.png'
 const WhoWeAre = () => {
   return (
     <div name='whoWeAre' className='section-style'>
-      <div className='max-w-screen-2xl w-full h-full mx-auto p-8 flex justify-center'>
+      <div className='max-w-screen-2xl w-full h-full mx-auto flex justify-center'>
         <div className='w-full grid md:grid-cols-2 md:gap-8 items-center '>
           <div>
             <img loading='lazy' src={WhoWeAreImg}/>
