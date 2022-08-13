@@ -13,7 +13,7 @@
         @apply text-white;
     }
     
-    li {
+    nav li {
         @apply p-4;
         @apply cursor-pointer;
     }
@@ -70,8 +70,12 @@
     }
 
     .aowwu-text {
-        @apply pt-0;
+        @apply mt-2;
         @apply marker:text-primary list-inside list-disc;
+    }
+    
+    .aowwu-text li{
+        @apply mb-2;
     }
 
     {/* Contact Us */}

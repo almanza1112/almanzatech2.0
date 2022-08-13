@@ -24,9 +24,9 @@ const Navbar = () => {
 
     
   return (
-    <div className={color ? 'bg-black border-b duration-750 border-primary fixed w-full h-20 flex justify-between items-center px-4 z-10' : 'fixed w-full h-20 flex justify-between items-center px-4 bg-transparent z-10'}>
+    <nav className={color ? 'bg-black border-b duration-750 border-primary fixed w-full h-20 flex justify-between items-center px-4 z-10' : 'fixed w-full h-20 flex justify-between items-center px-4 bg-transparent z-10'}>
        <div className=''>
-            <img src={Logo} alt="" style={{width:'250px'}}/>
+            <img src={Logo} alt="AlmanzaTech Logo" style={{width:'250px'}}/>
         </div>
 
         {/* Menu */}
@@ -71,7 +71,7 @@ const Navbar = () => {
                     </Link>
                 </li>
         </ul>
-    </div>
+    </nav>
   )
 }
 
