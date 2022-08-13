@@ -16,7 +16,7 @@ const WhoWeAre = () => {
             <p className='my-8 md:my-16'>
               Based in Nothern New Jersey, since 2019 AlmanzaTech has strived in exceeding the needs of individuals 
               and businesses looking for the best and customizable applications. We are a dedicated team that 
-              believes in every final product that we create should be a work of art. We treat you like family here
+              believes in every final product we create should be a work of art. We treat you like family here
               and always try to ensure that you are 100% satisfied.           
             </p>
 
