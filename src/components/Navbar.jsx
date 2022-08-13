@@ -33,17 +33,17 @@ const Navbar = () => {
         <ul className='hidden md:flex'>
                 <li className='hover:text-primary'>
                     <Link to="whatWeDo" smooth={true} duration={500}>
-                        <p className='py-8'>WHAT WE DO</p>
+                        <p className='py-8'>What We Do</p>
                     </Link>
                 </li>
                 <li className='hover:text-primary'>
                     <Link to="whoWeAre" smooth={true} duration={500}>
-                        <p className='py-8'>WHO WE ARE</p>
+                        <p className='py-8'>Who We Are</p>
                     </Link>
                 </li>
                 <li className='hover:text-primary'>
                     <Link to="contactUs" smooth={true} duration={500}>
-                        <p className='py-8'>CONTACT US</p>
+                        <p className='py-8'>Contact Us</p>
                     </Link>
                 </li>
         </ul>
@@ -57,17 +57,17 @@ const Navbar = () => {
         <ul className={nav ? 'absolute top-0 right-0 pt-4 w-full h-screen bg-black duration-500 border-l-8 border-primary' : 'absolute right-[-100%] pt-4 h-screen w-full '}>
                 <li className='text-xl'>
                     <Link onClick={handleClick} to="whatWeDo" smooth={true} duration={500} offset={-80}>
-                        <p className='py-4 w-full'>WHAT WE DO</p>
+                        <p className='py-4 w-full'>What We Do</p>
                     </Link>
                 </li>
                 <li className='text-xl'>
                     <Link onClick={handleClick} to="whoWeAre" smooth={true} duration={500} offset={-80}>
-                        <p className='py-4 w-full'>WHO WE ARE</p>
+                        <p className='py-4 w-full'>Who We Are</p>
                     </Link>
                 </li>
                 <li className='text-xl'>
                     <Link onClick={handleClick} to="contactUs" smooth={true} duration={500} offset={-80}>
-                        <p className='py-4 w-full'>CONTACT US</p>
+                        <p className='py-4 w-full'>Contact Us</p>
                     </Link>
                 </li>
         </ul>

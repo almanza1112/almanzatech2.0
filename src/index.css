@@ -19,6 +19,7 @@
     nav li {
         @apply p-4;
         @apply cursor-pointer;
+        @apply font-medium;
     }
 }
 
