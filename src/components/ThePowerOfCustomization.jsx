@@ -25,7 +25,7 @@ const ThePowerOfCustomization = () => {
           <div className='flex flex-col pt-8 md:pt-0'>
             <MdTimer10Select size={40} color='#5ce1e6'  className='self-center'/>
             <p className='my-4 md:my-8'>How long does a website have to make an impression? The answer is 10 seconds. We make sure every second 
-              counts and that your user will be left with a good impression.</p>
+              counts and that your user is left with a good impression.</p>
             <a href='https://blog.sagipl.com/web-design-statistics/' className='italic self-center text-sm'>(SOURCE: <u>Sagipl</u>)</a>
           </div>
         </div>
