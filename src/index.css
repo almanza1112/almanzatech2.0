@@ -49,6 +49,24 @@
         @apply font-bold;
     }
 
+    /* Advantages of Working With Us */
+    .aowwu-item {
+        @apply flex flex-col;
+        @apply border border-gray-800;
+        @apply p-4 md:p-8;
+    }
+
+    .aowwu-title{
+        @apply uppercase;
+        @apply font-semibold;
+        @apply self-center;
+    }
+
+    .aowwu-text {
+        @apply pt-0;
+        @apply marker:text-primary list-inside list-disc;
+    }
+
     {/* Contact Us */}
     .cu-item-title{
         @apply font-bold;
