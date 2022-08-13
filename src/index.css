@@ -23,7 +23,7 @@
     .section-style {
         @apply w-full;
         @apply bg-black;
-        @apply p-8 md:py-16;
+        @apply p-8 md:py-24;
     }
 
     .section-title {
@@ -32,6 +32,8 @@
         @apply border-b-8;
         @apply border-primary;
         @apply inline; 
+        @apply self-center;
+        @apply text-center
     }
 
     {/* What We Do */}
@@ -47,6 +49,12 @@
     .wwd-item-title {
         @apply mb-2;
         @apply font-bold;
+        @apply self-center md:self-start;
+    }
+
+    .wwd-item-text {
+        @apply md:col-span-3;
+        @apply flex flex-col;
     }
 
     /* Advantages of Working With Us */
@@ -57,8 +65,7 @@
     }
 
     .aowwu-title{
-        @apply uppercase;
-        @apply font-semibold;
+        @apply font-bold;
         @apply self-center;
     }
 
@@ -68,9 +75,13 @@
     }
 
     {/* Contact Us */}
+    .cu-item {
+        @apply flex flex-col;
+        @apply items-center md:items-start;
+    }
     .cu-item-title{
         @apply font-bold;
-        @apply md:mb-4;
+        @apply mb-2;
     }
 
     .flat-btn {

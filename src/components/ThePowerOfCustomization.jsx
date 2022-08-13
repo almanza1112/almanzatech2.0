@@ -7,7 +7,7 @@ const ThePowerOfCustomization = () => {
     <div className='section-style'>
       <div className='max-w-screen-2xl w-full mx-auto flex flex-col justify-center items-center'>
         <p className='section-title'>The Power of Customization</p>
-        <div className='grid md:grid-cols-3 md:gap-32 my-8 md:my-16 divide-y divide-gray-700 md:divide-none'>
+        <div className='grid md:grid-cols-3 md:gap-32 mt-8 md:mt-16 divide-y divide-gray-700 md:divide-none'>
           <div className='flex flex-col pb-8 md:pb-0'>
               <FiTrendingUp size={40} color='#5ce1e6' className='self-center'/>
             <p className='my-4 md:my-8'>A well-designed site can have up to a 200% higher conversion rate and more than 400% on sites with a 

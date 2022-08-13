@@ -11,9 +11,7 @@ const WhoWeAre = () => {
           </div>
 
           <div className='flex flex-col order-first md:order-last'>
-            <div className='text-left'>
-              <p className='section-title'>Who We Are</p>
-            </div>
+            <p className='section-title md:self-start'>Who We Are</p>
 
             <p className='my-8 md:my-16'>
               Based in Nothern New Jersey, since 2019 AlmanzaTech has strived in exceeding the needs of individuals 
