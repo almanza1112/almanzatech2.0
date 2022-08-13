@@ -34,7 +34,7 @@ const WhatWeDo = () => {
                           
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>Websites</div>
-                            <p>We help you increase traction and returning visitors by our top class user experience and design.</p>
+                            <p>We help you increase traction and gain returning visitors by our top class user experience and design</p>
                         </div>
                     </div>
 
@@ -45,7 +45,7 @@ const WhatWeDo = () => {
                             </div>
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>Mobile Applications</div>
-                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design.</div>
+                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design</div>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@ const WhatWeDo = () => {
                             </div>
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>IT Support</div>
-                            <p>From fixing your computer, newtwork issues, or office and home set up, we have you covered.</p>
+                            <p>From fixing your computer, network issues, or office and home set up, we have you covered</p>
                         </div>
                     </div>
 
@@ -67,7 +67,7 @@ const WhatWeDo = () => {
                             </div>
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>Consulting</div>
-                            <p>If you don't know where to start or are stuck on an issue, we will point you in the right direction to get things rolling.</p>
+                            <p>If you don't know where to start or are stuck on an issue, we will point you in the right direction to get things rolling</p>
                         </div>
                     </div>
                     
