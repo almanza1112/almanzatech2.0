@@ -6,11 +6,14 @@
     --primary-color: #5ce1e6;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap');
+
 @layer base {
 
     body {
+        @apply font-[Lato];
         @apply font-light;
-        @apply text-white;
+        @apply text-gray-200;
     }
     
     nav li {
@@ -41,14 +44,14 @@
         @apply grid;
         @apply md:grid-cols-4;
         @apply gap-4 md:gap-8;
-        @apply p-4 md:p-8;
+        @apply p-8;
         @apply border;
         @apply border-gray-800;
     }
 
     .wwd-item-title {
         @apply mb-2;
-        @apply font-bold;
+        @apply uppercase font-semibold;
         @apply self-center md:self-start;
     }
 
@@ -61,16 +64,16 @@
     .aowwu-item {
         @apply flex flex-col;
         @apply border border-gray-800;
-        @apply p-4 md:p-8;
+        @apply p-8;
     }
 
     .aowwu-title{
-        @apply font-bold;
+        @apply uppercase font-semibold;
         @apply self-center;
     }
 
     .aowwu-text {
-        @apply mt-2;
+        @apply mt-2 md:mt-6;
         @apply marker:text-primary list-inside list-disc;
     }
     
@@ -84,7 +87,7 @@
         @apply items-center md:items-start;
     }
     .cu-item-title{
-        @apply font-bold;
+        @apply uppercase font-semibold;
         @apply mb-2;
     }
 
