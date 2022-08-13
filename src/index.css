@@ -23,7 +23,7 @@
     .section-style {
         @apply w-full;
         @apply bg-black;
-        @apply p-8 md:py-24;
+        @apply px-8 py-16 md:py-24;
     }
 
     .section-title {
