@@ -13,7 +13,8 @@
     body {
         @apply font-[Lato];
         @apply font-light;
-        @apply text-gray-200;
+        @apply text-gray-100;
+        @apply subpixel-antialiased;
     }
     
     nav li {
@@ -59,6 +60,7 @@
     .wwd-item-text {
         @apply md:col-span-3;
         @apply flex flex-col;
+        @apply justify-center;
     }
 
     /* Advantages of Working With Us */
@@ -96,7 +98,8 @@
         @apply border-2;
         @apply bg-primary;
         @apply border-primary;
-        @apply font-extrabold;
+        @apply font-black;
+        @apply text-white;
         @apply px-6;
         @apply py-3;
         @apply flex;

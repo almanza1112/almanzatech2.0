@@ -3,6 +3,7 @@ import {Link} from 'react-scroll'
 import {CgWebsite} from 'react-icons/cg'
 import {FaMobileAlt} from 'react-icons/fa'
 import {BsFillPeopleFill, BsTools} from 'react-icons/bs'
+import {SiSimpleanalytics} from 'react-icons/si'
 
 const WhatWeDo = () => {
 
@@ -34,7 +35,6 @@ const WhatWeDo = () => {
                           
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>Websites</div>
-                            <p>We help you increase traction and gain returning visitors by our top class user experience and design</p>
                         </div>
                     </div>
 
@@ -45,7 +45,6 @@ const WhatWeDo = () => {
                             </div>
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>Mobile Applications</div>
-                            <div>Creating apps in both iOS and Android, we will deliver your app with the highest quality and design</div>
                         </div>
                     </div>
 
@@ -56,7 +55,6 @@ const WhatWeDo = () => {
                             </div>
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>IT Support</div>
-                            <p>From fixing your computer, network issues, or office and home set up, we have you covered</p>
                         </div>
                     </div>
 
@@ -67,9 +65,18 @@ const WhatWeDo = () => {
                             </div>
                           <div className='wwd-item-text'>
                             <div className='wwd-item-title'>Consulting</div>
-                            <p>If you don't know where to start or are stuck on an issue, we will point you in the right direction to get things rolling</p>
                         </div>
                     </div>
+
+                      {/* item - Data Analytics */}
+                      <div className='wwd-item'>
+                          <div className='border-2 border-primary rounded-full p-2 md:p-4 self-center justify-self-center'>
+                              <SiSimpleanalytics size={25} color='#5ce1e6' />
+                          </div>
+                          <div className='wwd-item-text'>
+                              <div className='wwd-item-title'>Data Analytics</div>
+                          </div>
+                      </div>
                     
                 </div>
             </div>
