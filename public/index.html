@@ -2,21 +2,135 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#05070a" />
+
+    <title>AlmanzaTech LLC — Custom Websites & Mobile Apps in New Jersey</title>
     <meta
       name="description"
-      content="AlmanzaTech LLC website"
+      content="AlmanzaTech builds custom websites, mobile apps, and IT infrastructure for businesses and entrepreneurs. 100% original code, engineered in-house in Northern New Jersey since 2019."
     />
+    <link rel="canonical" href="https://almanzatech.com/" />
+
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
-   
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    
-    <title>AlmanzaTech LLC</title>
+
+    <!-- Fonts: display / body / mono, loaded up front so text never reflows late -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Lato:wght@300;400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Link previews -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AlmanzaTech LLC" />
+    <meta property="og:url" content="https://almanzatech.com/" />
+    <meta
+      property="og:title"
+      content="AlmanzaTech LLC — We Build Your Vision"
+    />
+    <meta
+      property="og:description"
+      content="Custom websites, mobile apps, and IT support for businesses and entrepreneurs. Original code, engineered in-house in Northern New Jersey since 2019."
+    />
+    <meta property="og:image" content="https://almanzatech.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="AlmanzaTech LLC — We Build Your Vision"
+    />
+    <meta
+      name="twitter:description"
+      content="Custom websites, mobile apps, and IT support for businesses and entrepreneurs. Northern New Jersey, since 2019."
+    />
+    <meta name="twitter:image" content="https://almanzatech.com/og-image.jpg" />
+
+    <!-- Structured data: helps local search understand who and where we are -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "AlmanzaTech LLC",
+        "url": "https://almanzatech.com/",
+        "image": "https://almanzatech.com/og-image.jpg",
+        "description": "Custom website, mobile application, IT support, consulting, and data analytics services for businesses and entrepreneurs.",
+        "email": "info@almanzatech.com",
+        "telephone": "+1-201-467-1007",
+        "foundingDate": "2019",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "NJ",
+          "addressCountry": "US"
+        },
+        "areaServed": {
+          "@type": "AdministrativeArea",
+          "name": "Northern New Jersey"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "09:00",
+            "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "10:00",
+            "closes": "13:00"
+          }
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": { "@type": "Service", "name": "Website Design and Development" }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": { "@type": "Service", "name": "Mobile Application Development" }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": { "@type": "Service", "name": "IT Support" }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": { "@type": "Service", "name": "Technology Consulting" }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": { "@type": "Service", "name": "Data Analytics" }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": { "@type": "Service", "name": "AI Integration and Automation" }
+            }
+          ]
+        }
+      }
+    </script>
   </head>
   <body>
+    <noscript>
+      AlmanzaTech LLC builds custom websites and mobile applications in Northern
+      New Jersey. Please enable JavaScript, or reach us at info@almanzatech.com
+      or (201) 467-1007.
+    </noscript>
     <div id="root"></div>
-  
   </body>
 </html>
