@@ -1,0 +1,58 @@
+# ---------------------------------------------------------------------------
+# AlmanzaTech — static hosting config for Hostinger (LiteSpeed / Apache)
+#
+# This file lives in public/ so Create React App copies it into build/ on every
+# `yarn build`. Whatever you upload to public_html gets it automatically.
+# ---------------------------------------------------------------------------
+
+# --- Force HTTPS -----------------------------------------------------------
+# Delete this block if hPanel already has "Force HTTPS" switched on — doubling
+# up is harmless here (the X-Forwarded-Proto check prevents a redirect loop
+# behind Hostinger's proxy) but there is no reason to do the work twice.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# --- Compression -----------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# --- Caching ---------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Create React App fingerprints these filenames (main.5b1d69f0.js,
+  # main_vid_bg.246d857d8b8a5f03c29a.mp4). The content behind a given name can
+  # never change, so cache it for a year and stop re-downloading the 4.4MB
+  # video on every repeat visit.
+  <FilesMatch "\.[0-9a-f]{8,20}\.(js|css|png|jpe?g|gif|svg|webp|mp4|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # The entry point is NOT fingerprinted. If this gets cached, visitors keep
+  # loading an old app that points at deleted asset filenames.
+  <FilesMatch "^(index\.html|manifest\.json|robots\.txt)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- MIME ------------------------------------------------------------------
+# Makes sure the hero video is served as a streamable type.
+<IfModule mod_mime.c>
+  AddType video/mp4 .mp4
+  AddType image/svg+xml .svg
+  AddType application/manifest+json .webmanifest
+</IfModule>
