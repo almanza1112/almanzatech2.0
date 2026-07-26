@@ -1,0 +1,84 @@
+name: Build and publish
+
+# Builds the site on every push to master and publishes the compiled output to
+# a `deploy` branch. Hostinger's Git integration watches `deploy` and pulls it
+# into public_html — it does not run builds itself, which is why master (source
+# only) can't be deployed directly.
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# Never let two publishes race each other onto the deploy branch.
+concurrency:
+  group: publish
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      # A crash in any component fails here rather than on the live site.
+      - name: Smoke test
+        run: yarn test --testPathPattern="App.smoke" --watchAll=false
+        env:
+          CI: true
+
+      - name: Build
+        run: yarn build
+        env:
+          CI: true
+
+      - name: Publish to the deploy branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          REMOTE="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          rm -rf .deploy && mkdir .deploy && cd .deploy
+          git init -q
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add origin "$REMOTE"
+
+          # Build on top of existing deploy history when there is some, so the
+          # branch always fast-forwards. Hostinger keeps its own clone of this
+          # branch and a force-push can leave that clone stranded.
+          if git fetch -q --depth 1 origin deploy 2>/dev/null; then
+            git checkout -q -b deploy FETCH_HEAD
+            # Clear the tree so assets removed by this build actually disappear
+            # from public_html, instead of accumulating as orphans.
+            find . -mindepth 1 -maxdepth 1 -not -name .git -exec rm -rf {} +
+          else
+            echo "No deploy branch yet — creating it."
+            git checkout -q -b deploy
+          fi
+
+          cp -R ../build/. .
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Build output is identical to the last publish. Nothing to do."
+            exit 0
+          fi
+
+          git commit -qm "Build from ${GITHUB_SHA:0:7}"
+          git push -q origin deploy
+          echo "Published $(git rev-parse --short HEAD) to deploy."
