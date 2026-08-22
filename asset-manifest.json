@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.bae22576.css",
-    "main.js": "/static/js/main.e9087897.js",
+    "main.js": "/static/js/main.318fb40a.js",
     "static/media/main_vid_bg.mp4": "/static/media/main_vid_bg.246d857d8b8a5f03c29a.mp4",
     "static/media/whoweare.png": "/static/media/whoweare.f02f5d5aaf131bda5a84.png",
     "static/media/hero_poster.jpg": "/static/media/hero_poster.10a3537722eca50bd35e.jpg",
     "static/media/almanzatech.png": "/static/media/almanzatech.ac0216c9c1641f95d681.png",
     "index.html": "/index.html",
     "main.bae22576.css.map": "/static/css/main.bae22576.css.map",
-    "main.e9087897.js.map": "/static/js/main.e9087897.js.map"
+    "main.318fb40a.js.map": "/static/js/main.318fb40a.js.map"
   },
   "entrypoints": [
     "static/css/main.bae22576.css",
-    "static/js/main.e9087897.js"
+    "static/js/main.318fb40a.js"
   ]
 }
