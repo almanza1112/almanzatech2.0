@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 import Reveal from "./ui/Reveal";
 import SectionHeading from "./ui/SectionHeading";
+import { track } from "../lib/analytics";
 
 const SERVICES = [
   {
@@ -56,7 +57,13 @@ const WhatWeDo = () => (
         />
 
         <Reveal delay={200} className="shrink-0">
-          <a href="#contact" className="btn btn-primary">
+          <a
+            href="#contact"
+            onClick={() =>
+              track("cta_click", { label: "Get a quote", location: "services" })
+            }
+            className="btn btn-primary"
+          >
             Get a quote
             <FiArrowUpRight aria-hidden="true" size={16} />
           </a>

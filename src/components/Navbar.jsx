@@ -3,6 +3,7 @@ import { FiArrowUpRight, FiMail, FiPhone } from "react-icons/fi";
 import Logo from "../assets/almanzatech.png";
 import useActiveSection from "../hooks/useActiveSection";
 import useScrollState from "../hooks/useScrollState";
+import { track } from "../lib/analytics";
 import { scrollToId } from "../lib/motion";
 import { NAV_IDS, NAV_LINKS, SITE } from "../data/site";
 
@@ -100,7 +101,13 @@ const Navbar = () => {
               </a>
             ))}
 
-            <a href="#contact" className="btn btn-primary !min-h-[2.75rem] !px-5">
+            <a
+              href="#contact"
+              onClick={() =>
+                track("cta_click", { label: "Get a quote", location: "navbar" })
+              }
+              className="btn btn-primary !min-h-[2.75rem] !px-5"
+            >
               Get a quote
               <FiArrowUpRight aria-hidden="true" size={15} />
             </a>
@@ -155,6 +162,12 @@ const Navbar = () => {
             <div className="flex flex-col gap-4 font-mono text-sm">
               <a
                 href={SITE.phoneHref}
+                onClick={() =>
+                  track("contact_click", {
+                    channel: "phone",
+                    location: "navbar",
+                  })
+                }
                 tabIndex={open ? 0 : -1}
                 className="flex items-center gap-3 text-muted transition-colors hover:text-primary"
               >
@@ -163,6 +176,12 @@ const Navbar = () => {
               </a>
               <a
                 href={`mailto:${SITE.email}`}
+                onClick={() =>
+                  track("contact_click", {
+                    channel: "email",
+                    location: "navbar",
+                  })
+                }
                 tabIndex={open ? 0 : -1}
                 className="flex items-center gap-3 text-muted transition-colors hover:text-primary"
               >
@@ -173,7 +192,13 @@ const Navbar = () => {
 
             <a
               href="#contact"
-              onClick={(e) => handleMobileNav(e, "contact")}
+              onClick={(e) => {
+                track("cta_click", {
+                  label: "Start a project",
+                  location: "navbar",
+                });
+                handleMobileNav(e, "contact");
+              }}
               tabIndex={open ? 0 : -1}
               className="btn btn-primary btn-block mt-7"
             >

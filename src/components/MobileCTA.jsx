@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiArrowUpRight, FiPhone } from "react-icons/fi";
 import useScrollState from "../hooks/useScrollState";
+import { track } from "../lib/analytics";
 import { supportsObserver } from "../lib/motion";
 import { SITE } from "../data/site";
 
@@ -32,13 +33,26 @@ const MobileCTA = () => {
     <div className="mobile-cta" data-visible={visible} aria-hidden={!visible}>
       <a
         href={SITE.phoneHref}
+        onClick={() =>
+          track("contact_click", { channel: "phone", location: "mobile_bar" })
+        }
         className="bg-ink-2 text-primary"
         tabIndex={visible ? 0 : -1}
       >
         <FiPhone aria-hidden="true" size={15} />
         Call us
       </a>
-      <a href="#contact" className="bg-primary text-ink" tabIndex={visible ? 0 : -1}>
+      <a
+        href="#contact"
+        onClick={() =>
+          track("cta_click", {
+            label: "Get a quote",
+            location: "mobile_bar",
+          })
+        }
+        className="bg-primary text-ink"
+        tabIndex={visible ? 0 : -1}
+      >
         Get a quote
         <FiArrowUpRight aria-hidden="true" size={15} />
       </a>

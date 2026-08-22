@@ -9,8 +9,13 @@ import AdvantagesOfWorkingWithUs from "./components/AdvantagesOfWorkingWithUs";
 import ContactUs from "./components/ContactUs";
 import Footer from "./components/Footer";
 import MobileCTA from "./components/MobileCTA";
+import useSectionViews from "./hooks/useSectionViews";
+
+const TRACKED_SECTIONS = ["services", "process", "about", "contact"];
 
 function App() {
+  useSectionViews(TRACKED_SECTIONS);
+
   return (
     <>
       <Navbar />

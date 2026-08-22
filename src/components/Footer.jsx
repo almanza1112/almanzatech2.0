@@ -2,6 +2,7 @@ import React from "react";
 import { FiArrowUp, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 import Logo from "../assets/almanzatech.png";
 import { NAV_LINKS, SITE } from "../data/site";
+import { track } from "../lib/analytics";
 
 const SERVICES = [
   "Websites",
@@ -74,6 +75,12 @@ const Footer = () => (
             <li>
               <a
                 href={SITE.phoneHref}
+                onClick={() =>
+                  track("contact_click", {
+                    channel: "phone",
+                    location: "footer",
+                  })
+                }
                 className="flex items-center gap-2.5 text-muted transition-colors hover:text-primary"
               >
                 <FiPhone aria-hidden="true" size={14} />
@@ -83,6 +90,12 @@ const Footer = () => (
             <li>
               <a
                 href={`mailto:${SITE.email}`}
+                onClick={() =>
+                  track("contact_click", {
+                    channel: "email",
+                    location: "footer",
+                  })
+                }
                 className="flex items-center gap-2.5 break-all text-muted transition-colors hover:text-primary"
               >
                 <FiMail aria-hidden="true" size={14} />

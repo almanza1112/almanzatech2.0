@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FiArrowDownRight, FiArrowUpRight } from "react-icons/fi";
 import bgVideo from "../assets/main_vid_bg.mp4";
 import heroPoster from "../assets/hero_poster.jpg";
+import { track } from "../lib/analytics";
 import { prefersReducedMotion } from "../lib/motion";
 import { SITE } from "../data/site";
 
@@ -106,11 +107,29 @@ const Main = () => {
                 : "rise-in .8s var(--ease-out) .32s both",
             }}
           >
-            <a href="#contact" className="btn btn-primary">
+            <a
+              href="#contact"
+              onClick={() =>
+                track("cta_click", {
+                  label: "Start a project",
+                  location: "hero",
+                })
+              }
+              className="btn btn-primary"
+            >
               Start a project
               <FiArrowUpRight aria-hidden="true" size={16} />
             </a>
-            <a href="#services" className="btn btn-ghost">
+            <a
+              href="#services"
+              onClick={() =>
+                track("cta_click", {
+                  label: "See what we do",
+                  location: "hero",
+                })
+              }
+              className="btn btn-ghost"
+            >
               See what we do
               <FiArrowDownRight aria-hidden="true" size={16} />
             </a>

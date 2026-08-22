@@ -11,6 +11,7 @@ import {
 import Reveal from "./ui/Reveal";
 import SectionHeading from "./ui/SectionHeading";
 import { SITE } from "../data/site";
+import { track } from "../lib/analytics";
 
 const FORM_ENDPOINT = "https://sheetdb.io/api/v1/i2bbvaqeluzn2";
 
@@ -47,6 +48,7 @@ const ContactUs = () => {
     try {
       const response = await fetch(FORM_ENDPOINT, { method: "POST", body: data });
       if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+      track("contact_submit", {});
       setStatus(STATUS.SENT);
       form.reset();
     } catch (error) {
@@ -91,6 +93,14 @@ const ContactUs = () => {
                   <Reveal key={channel.label} delay={i * 90}>
                     <a
                       href={channel.href}
+                      onClick={() =>
+                        track("contact_click", {
+                          channel: channel.href.startsWith("tel:")
+                            ? "phone"
+                            : "email",
+                          location: "contact",
+                        })
+                      }
                       className="card card-hover !flex-row items-center gap-5 !py-5"
                     >
                       <span className="icon-chip">
@@ -144,7 +154,16 @@ const ContactUs = () => {
                 <p className="mt-3 max-w-sm text-muted">
                   Thanks for reaching out — we will get back to you shortly. If it is
                   urgent, give us a call at{" "}
-                  <a href={SITE.phoneHref} className="link-underline text-primary">
+                  <a
+                    href={SITE.phoneHref}
+                    onClick={() =>
+                      track("contact_click", {
+                        channel: "phone",
+                        location: "contact",
+                      })
+                    }
+                    className="link-underline text-primary"
+                  >
                     {SITE.phoneDisplay}
                   </a>
                   .
@@ -261,6 +280,12 @@ const ContactUs = () => {
                       at{" "}
                       <a
                         href={`mailto:${SITE.email}`}
+                        onClick={() =>
+                          track("contact_click", {
+                            channel: "email",
+                            location: "contact",
+                          })
+                        }
                         className="link-underline text-primary"
                       >
                         {SITE.email}

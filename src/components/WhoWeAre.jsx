@@ -4,6 +4,7 @@ import WhoWeAreImg from "../assets/whoweare.png";
 import Reveal from "./ui/Reveal";
 import SectionHeading from "./ui/SectionHeading";
 import { SITE } from "../data/site";
+import { track } from "../lib/analytics";
 
 const WhoWeAre = () => (
   <section id="about" className="section section--ruled">
@@ -61,7 +62,13 @@ const WhoWeAre = () => (
               are completely satisfied with it.
             </p>
 
-            <a href="#contact" className="btn btn-primary mt-9">
+            <a
+              href="#contact"
+              onClick={() =>
+                track("cta_click", { label: "Work with us", location: "about" })
+              }
+              className="btn btn-primary mt-9"
+            >
               Work with us
               <FiArrowUpRight aria-hidden="true" size={16} />
             </a>
