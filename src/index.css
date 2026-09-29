@@ -1047,21 +1047,160 @@
         line-height: 1.5;
     }
 
-    .case-figure {
+    .case-media {
         margin-top: 32px;
     }
 
-    .case-image {
+    .case-media [role="tablist"] {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .case-tab {
+        min-height: 44px;
+        padding: 0 18px;
+        border: 1px solid var(--field);
+        border-radius: 2px;
+        background: var(--ink);
+        color: var(--white);
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .case-tab:hover {
+        border-color: var(--muted);
+    }
+
+    .case-tab-count {
+        color: var(--muted);
+        font-weight: 400;
+    }
+
+    .case-tab[aria-selected="true"] {
+        border-color: var(--cyan);
+        background: var(--cyan);
+        color: var(--ink);
+    }
+
+    .case-tab[aria-selected="true"] .case-tab-count {
+        color: var(--ink);
+    }
+
+    .case-media-label {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .carousel-track {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carousel--wide.carousel--app {
+        max-width: 880px;
+    }
+
+    .carousel--wide .carousel-slide {
+        flex: 0 0 100%;
+        scroll-snap-align: start;
+    }
+
+    .carousel--wide img {
+        display: block;
         width: 100%;
         height: auto;
-        object-fit: contain;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+    }
+
+    .carousel--tall {
+        padding: 16px;
+        border: 1px solid var(--rule);
         background: var(--surface);
     }
 
-    .case-figure figcaption {
+    .carousel--tall .carousel-track {
+        gap: 16px;
+    }
+
+    .carousel--tall .carousel-slide {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+
+    .carousel--tall figure {
+        margin: 0;
+    }
+
+    .carousel--tall img {
+        display: block;
+        width: auto;
+        height: 400px;
+        border-radius: 12px;
+        border: 1px solid var(--rule);
+    }
+
+    .carousel--tall figcaption {
         margin-top: 10px;
         color: var(--muted);
-        font-size: 13px;
+        font-size: 14px;
+    }
+
+    .carousel-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .carousel-btn {
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--field);
+        border-radius: 2px;
+        background: transparent;
+        color: var(--white);
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .carousel-btn:hover {
+        border-color: var(--muted);
+    }
+
+    .carousel-btn:disabled {
+        opacity: .35;
+        cursor: default;
+    }
+
+    .carousel-status {
+        margin: 0;
+        margin-right: auto;
+        color: var(--muted);
+        font-size: 15px;
+    }
+
+    .carousel-count {
+        color: var(--white);
+        font-variant-numeric: tabular-nums;
     }
 
     .case-body {
@@ -1127,6 +1266,10 @@
     }
 
     .case-next {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
         margin-top: 48px;
         padding-top: 24px;
         border-top: 1px solid var(--rule);
@@ -1160,6 +1303,25 @@
     }
 
     @media (min-width: 600px) {
+        .carousel {
+            position: relative;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            right: 0;
+            bottom: calc(100% + 16px);
+            margin-top: 0;
+        }
+
+        .carousel--tall {
+            padding: 24px;
+        }
+
+        .carousel--tall img {
+            height: 480px;
+        }
+
         .case-title,
         .case-cta h2 {
             font-size: 72px;
@@ -1179,8 +1341,12 @@
             font-size: 88px;
         }
 
-        .case-figure {
+        .case-media {
             margin-top: 48px;
+        }
+
+        .carousel--tall img {
+            height: 560px;
         }
 
         .case-body {

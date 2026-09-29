@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { CASE_STUDIES, CASE_PAGE_COPY, TESTIMONIALS } from "../data/work";
 import { track } from "../lib/analytics";
-
-const IMAGE_SIZES =
-  "(min-width: 1000px) min(calc(100vw - 128px), 1312px), (min-width: 600px) calc(100vw - 64px), calc(100vw - 40px)";
+import CaseMedia from "./CaseMedia";
 
 const CaseText = ({ children }) =>
   children.split(/(sign-in|assist-mode|scroll-driven)/g).map((part, index) =>
@@ -36,22 +34,7 @@ const CaseStudyPage = ({ slug }) => {
         <p className="case-lede">{project.outcome}</p>
       </header>
 
-      {project.img && (
-        <figure className="case-figure">
-          <img
-            className="case-image"
-            src={project.img.large}
-            srcSet={`${project.img.small} 700w, ${project.img.large} 1400w`}
-            sizes={IMAGE_SIZES}
-            width={project.img.width}
-            height={project.img.height}
-            alt={project.img.alt}
-            loading="eager"
-            aria-describedby="case-caption"
-          />
-          <figcaption id="case-caption">{project.caption}</figcaption>
-        </figure>
-      )}
+      <CaseMedia key={project.slug} project={project} />
 
       <div className="case-body">
         <div className="case-copy">
@@ -96,22 +79,6 @@ const CaseStudyPage = ({ slug }) => {
         </div>
       </div>
 
-      {project.gallery?.map(({ img, caption }) => (
-        <figure className="case-figure case-gallery" key={img.large}>
-          <img
-            className="case-image"
-            src={img.large}
-            srcSet={`${img.small} 700w, ${img.large} 1400w`}
-            sizes={IMAGE_SIZES}
-            width={img.width}
-            height={img.height}
-            alt={img.alt}
-            loading="lazy"
-          />
-          <figcaption>{caption}</figcaption>
-        </figure>
-      ))}
-
       {testimonial && (
         <figure className="case-quote">
           <blockquote><p>{testimonial.quote}</p></blockquote>
@@ -126,7 +93,7 @@ const CaseStudyPage = ({ slug }) => {
           href={`/work/${next.slug}/`}
           onClick={() => trackClick(`Next: ${next.name}`)}
         >
-          {next.name}
+          {next.name}<span aria-hidden="true"> →</span>
         </a>
       </nav>
 

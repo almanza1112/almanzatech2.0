@@ -16,6 +16,7 @@ import About from "./components/About";
 import Faq from "./components/Faq";
 import ContactUs from "./components/ContactUs";
 import CallBar from "./components/CallBar";
+import CaseMedia from "./components/CaseMedia";
 import { SITE } from "./data/site";
 import {
   CASE_STUDIES,
@@ -193,19 +194,11 @@ test.each(CASE_STUDIES)("deep-links to $slug with the supplied copy and next pro
   expect(document.getElementById("contact")).toBeNull();
   expect(document.querySelector('a[href^="#"]')).toBeNull();
   expect(screen.getByRole("link", { name: "← All work" }).getAttribute("href")).toBe("/#work");
-  if (project.img) {
-    const image = within(article).getAllByRole("img")[0];
-    expect(image.getAttribute("loading")).toBe("eager");
-    expect(image.getAttribute("srcset"))
-      .toBe(`${project.img.small} 700w, ${project.img.large} 1400w`);
-    expect(image.getAttribute("sizes")).toContain("1312px");
-    expect(image.getAttribute("width")).toBe(String(project.img.width));
-    expect(image.getAttribute("height")).toBe(String(project.img.height));
-    expect(within(article).getByText(project.caption, { exact: true })).toBeTruthy();
-  } else {
-    expect(within(article).queryByRole("img")).toBeNull();
-    expect(article.querySelector(".case-details").textContent).toContain(project.context);
-  }
+  const firstSlide = (project.media.website.length ? project.media.website : project.media.app)[0];
+  const image = within(article).getAllByRole("img")[0];
+  expect(image.getAttribute("src")).toBe(firstSlide.img.small);
+  expect(image.getAttribute("alt")).toBe(firstSlide.alt);
+  expect(image.getAttribute("loading")).toBe("eager");
   const quote = TESTIMONIALS.find(({ projectId }) => projectId === project.testimonialId);
   if (quote) {
     expect(within(article).getByText(quote.quote, { exact: true })).toBeTruthy();
@@ -214,8 +207,12 @@ test.each(CASE_STUDIES)("deep-links to $slug with the supplied copy and next pro
     expect(article.querySelector("blockquote")).toBeNull();
   }
   const next = CASE_STUDIES[(CASE_STUDIES.indexOf(project) + 1) % CASE_STUDIES.length];
-  expect(within(screen.getByRole("navigation", { name: "Next project" }))
-    .getByRole("link", { name: next.name }).getAttribute("href")).toBe(`/work/${next.slug}/`);
+  const nextLink = within(screen.getByRole("navigation", { name: "Next project" }))
+    .getByRole("link", { name: next.name });
+  expect(nextLink.getAttribute("href")).toBe(`/work/${next.slug}/`);
+  expect(nextLink.textContent).toBe(`${next.name} →`);
+  expect(within(nextLink).getByText("→", { selector: "span" }).getAttribute("aria-hidden"))
+    .toBe("true");
 });
 
 test("NextPlay keeps the summary, build note, context and stack", () => {
@@ -987,14 +984,280 @@ test("Bryant's name appears only inside the verbatim client reviews", () => {
   expect(withoutReviews).not.toMatch(/Bryant/);
 });
 
-test("the ChinesePod case page shows the website first and the app screens second", () => {
+test("the ChinesePod case page has website and app tabs with the ordered slide labels", () => {
   window.history.pushState(null, "", "/work/chinesepod/");
   render(<App />);
-  const figures = [...document.querySelectorAll(".case-page figure.case-figure")];
-  expect(figures.map((figure) => figure.querySelector("figcaption").textContent)).toEqual([
-    "ChinesePod's website.",
-    "The ChinesePod app, shown in its App Store screenshots.",
-  ]);
-  expect(figures[0].querySelector("img").getAttribute("loading")).toBe("eager");
-  expect(figures[1].querySelector("img").getAttribute("loading")).toBe("lazy");
+  expect(screen.getByRole("tab", { name: "Website · 4" }).getAttribute("aria-selected"))
+    .toBe("true");
+  const website = screen.getByRole("region", { name: "ChinesePod website screenshots" });
+  expect(within(website).getAllByRole("listitem").map((slide) => slide.getAttribute("aria-label")))
+    .toEqual([
+      "1 of 4: Home", "2 of 4: Why ChinesePod", "3 of 4: For companies", "4 of 4: For schools",
+    ]);
+  fireEvent.click(screen.getByRole("tab", { name: "App · 6" }));
+  const app = screen.getByRole("region", { name: "ChinesePod app screenshots" });
+  expect(Array.from(app.querySelectorAll("figcaption"), (label) => label.textContent))
+    .toEqual(["Lessons", "Playlists", "Dialogue", "Vocabulary", "Flashcards", "Settings"]);
+});
+
+describe("CaseMedia", () => {
+  let frames;
+  const nextplay = CASE_STUDIES.find(({ slug }) => slug === "nextplay");
+
+  beforeEach(() => {
+    frames = new Map();
+    let frameId = 0;
+    jest.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      frames.set(++frameId, callback);
+      return frameId;
+    });
+    jest.spyOn(window, "cancelAnimationFrame").mockImplementation((id) => frames.delete(id));
+  });
+
+  const flushScroll = (track, left) => {
+    track.scrollLeft = left;
+    fireEvent.scroll(track);
+    act(() => {
+      const pending = [...frames.values()];
+      frames.clear();
+      pending.forEach((callback) => callback());
+    });
+  };
+
+  const mockTrack = (region, clientWidth = 1000, scrollWidth = 3000) => {
+    const track = within(region).getByRole("list");
+    for (const [name, value] of Object.entries({
+      clientWidth, scrollWidth, scrollLeft: 0, scrollTo: jest.fn(),
+    })) {
+      Object.defineProperty(track, name, { configurable: true, writable: true, value });
+    }
+    fireEvent.resize(window);
+    return track;
+  };
+
+  test.each([
+    ["nextplay", ["Website · 3", "App · 5"], null],
+    ["ambe", ["Website · 4", "App · 4"], null],
+    ["chinesepod", ["Website · 4", "App · 6"], null],
+    ["curzonrelo", [], "App · 6"],
+    ["persyst", [], "App · 4"],
+  ])("%s shows the specified tabs or single-kind label", (slug, tabLabels, singleLabel) => {
+    const project = CASE_STUDIES.find((item) => item.slug === slug);
+    const { container } = render(<CaseMedia project={project} />);
+    expect(screen.queryAllByRole("tab").map((tab) => tab.textContent)).toEqual(tabLabels);
+    if (tabLabels.length) {
+      expect(screen.getByRole("tablist", { name: `${project.name} screenshots` })).toBeTruthy();
+      expect(screen.getByRole("tab", { name: tabLabels[0] }).getAttribute("aria-selected"))
+        .toBe("true");
+      expect(container.querySelectorAll('[role="tabpanel"]')).toHaveLength(2);
+      expect(container.querySelector(".case-media-label")).toBeNull();
+    } else {
+      expect(screen.queryByRole("tablist")).toBeNull();
+      expect(container.querySelector(".case-media-label").textContent).toBe(singleLabel);
+      expect(screen.queryByRole("tabpanel")).toBeNull();
+    }
+  });
+
+  test("clicking tabs changes selection and visibility while both panels remain mounted", () => {
+    render(<CaseMedia project={nextplay} />);
+    const website = screen.getByRole("tab", { name: "Website · 3" });
+    const app = screen.getByRole("tab", { name: "App · 5" });
+    const websitePanel = document.getElementById(website.getAttribute("aria-controls"));
+    const appPanel = document.getElementById(app.getAttribute("aria-controls"));
+    const appTrack = appPanel.querySelector(".carousel-track");
+    for (const [name, width] of [["clientWidth", 300], ["scrollWidth", 1500]]) {
+      Object.defineProperty(appTrack, name, { get: () => appPanel.hidden ? 0 : width });
+    }
+    expect(websitePanel.id).toBe("case-panel-website");
+    expect(appPanel.id).toBe("case-panel-app");
+    expect(websitePanel.getAttribute("aria-labelledby")).toBe(website.id);
+    expect(appPanel.getAttribute("aria-labelledby")).toBe(app.id);
+
+    for (const selected of [app, website]) {
+      fireEvent.click(selected);
+      for (const tab of [website, app]) {
+        const active = tab === selected;
+        expect(tab.getAttribute("aria-selected")).toBe(String(active));
+        expect(tab.tabIndex).toBe(active ? 0 : -1);
+        expect(document.getElementById(tab.getAttribute("aria-controls")).hidden).toBe(!active);
+      }
+      expect(document.getElementById("case-panel-website")).toBe(websitePanel);
+      expect(document.getElementById("case-panel-app")).toBe(appPanel);
+      if (selected === app) {
+        expect(within(appPanel).getByRole("button", { name: "Next screenshot" }).disabled).toBe(false);
+      }
+    }
+  });
+
+  test("tab arrow keys wrap, Home and End select endpoints, and focus follows selection", () => {
+    render(<CaseMedia project={nextplay} />);
+    const website = screen.getByRole("tab", { name: "Website · 3" });
+    const app = screen.getByRole("tab", { name: "App · 5" });
+    website.focus();
+    for (const [key, expected] of [
+      ["ArrowRight", app], ["ArrowRight", website], ["ArrowLeft", app],
+      ["ArrowLeft", website], ["End", app], ["Home", website],
+    ]) {
+      expect(fireEvent.keyDown(document.activeElement, { key })).toBe(false);
+      expect(document.activeElement).toBe(expected);
+      expect(expected.getAttribute("aria-selected")).toBe("true");
+      expect(expected.tabIndex).toBe(0);
+      expect(document.getElementById(expected.getAttribute("aria-controls")).hidden).toBe(false);
+    }
+  });
+
+  test("wide controls and live status follow the scroll position", () => {
+    render(<CaseMedia project={nextplay} />);
+    const region = screen.getByRole("region", { name: "NextPlay Nutrition website screenshots" });
+    const track = mockTrack(region);
+    const previous = within(region).getByRole("button", { name: "Previous screenshot" });
+    const next = within(region).getByRole("button", { name: "Next screenshot" });
+    const status = region.querySelector('[aria-live="polite"]');
+    expect(Array.from(region.querySelector(".carousel-controls").children))
+      .toEqual([status, previous, next]);
+    expect(region.getAttribute("aria-roledescription")).toBe("carousel");
+    expect(track.tabIndex).toBe(0);
+    expect(status.textContent).toBe("1 / 3 Home");
+    expect(previous.disabled).toBe(true);
+    fireEvent.click(next);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 1000, behavior: "smooth" });
+    flushScroll(track, 1000);
+    expect(status.textContent).toBe("2 / 3 Individuals");
+    expect(previous.disabled).toBe(false);
+    fireEvent.click(previous);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 0, behavior: "smooth" });
+    flushScroll(track, 2000);
+    expect(status.textContent).toBe("3 / 3 Businesses");
+    expect(next.disabled).toBe(true);
+    flushScroll(track, 4000);
+    expect(status.textContent).toBe("3 / 3 Businesses");
+    flushScroll(track, -10);
+    expect(status.textContent).toBe("1 / 3 Home");
+    expect(previous.disabled).toBe(true);
+  });
+
+  test("scroll updates are throttled and resize disables controls when all slides fit", () => {
+    const { unmount } = render(<CaseMedia project={nextplay} />);
+    const region = screen.getByRole("region", { name: "NextPlay Nutrition website screenshots" });
+    const track = mockTrack(region);
+    track.scrollLeft = 1000;
+    fireEvent.scroll(track);
+    fireEvent.scroll(track);
+    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1);
+    expect(region.querySelector(".carousel-status").textContent).toBe("1 / 3 Home");
+    flushScroll(track, 1000);
+    expect(region.querySelector(".carousel-status").textContent).toBe("2 / 3 Individuals");
+    track.scrollLeft = 0;
+    track.clientWidth = 3000;
+    fireEvent.resize(window);
+    expect(within(region).getByRole("button", { name: "Previous screenshot" }).disabled).toBe(true);
+    expect(within(region).getByRole("button", { name: "Next screenshot" }).disabled).toBe(true);
+    fireEvent.scroll(track);
+    unmount();
+    expect(window.cancelAnimationFrame).toHaveBeenCalled();
+    expect(frames.size).toBe(0);
+  });
+
+  test("tall slides have ordered labels and move by offsets relative to the first slide", () => {
+    render(<CaseMedia project={nextplay} />);
+    fireEvent.click(screen.getByRole("tab", { name: "App · 5" }));
+    const region = screen.getByRole("region", { name: "NextPlay Nutrition app screenshots" });
+    const track = mockTrack(region, 400, 1500);
+    expect(region.querySelector(".carousel-status")).toBeNull();
+    expect(Array.from(region.querySelectorAll("figcaption"), (label) => label.textContent))
+      .toEqual(["Home", "Daily plan", "Meal Finder", "Meal Builder", "Health"]);
+    Array.from(track.children).forEach((slide, index) => {
+      Object.defineProperty(slide, "offsetLeft", { value: 40 + index * 250 });
+    });
+    const next = within(region).getByRole("button", { name: "Next screenshot" });
+    const previous = within(region).getByRole("button", { name: "Previous screenshot" });
+    expect(Array.from(region.querySelector(".carousel-controls").children))
+      .toEqual([previous, next]);
+    fireEvent.click(next);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 250, behavior: "smooth" });
+    flushScroll(track, 251);
+    fireEvent.click(next);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 500, behavior: "smooth" });
+    fireEvent.click(previous);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 0, behavior: "smooth" });
+    flushScroll(track, 375);
+    fireEvent.click(previous);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 250, behavior: "smooth" });
+  });
+
+  test("focused track arrow keys move slides and prevent page scrolling", () => {
+    render(<CaseMedia project={nextplay} />);
+    const region = screen.getByRole("region", { name: "NextPlay Nutrition website screenshots" });
+    const track = mockTrack(region);
+    track.focus();
+    expect(fireEvent.keyDown(track, { key: "ArrowRight" })).toBe(false);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 1000, behavior: "smooth" });
+    flushScroll(track, 1000);
+    expect(fireEvent.keyDown(track, { key: "ArrowLeft" })).toBe(false);
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 0, behavior: "smooth" });
+  });
+
+  test("reduced motion uses automatic scrolling", () => {
+    const originalMatchMedia = window.matchMedia;
+    window.matchMedia = jest.fn(() => ({ matches: true }));
+    try {
+      render(<CaseMedia project={nextplay} />);
+      const region = screen.getByRole("region", { name: "NextPlay Nutrition website screenshots" });
+      const track = mockTrack(region);
+      fireEvent.click(within(region).getByRole("button", { name: "Next screenshot" }));
+      expect(window.matchMedia).toHaveBeenCalledWith("(prefers-reduced-motion: reduce)");
+      expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 1000, behavior: "auto" });
+    } finally {
+      window.matchMedia = originalMatchMedia;
+    }
+  });
+
+  test.each(CASE_STUDIES)("$slug images have kind-specific classes and sources, alt text and one eager image", (project) => {
+    const { container } = render(<CaseMedia project={project} />);
+    const slides = [...project.media.website, ...project.media.app];
+    const images = container.querySelectorAll("img");
+    expect(images).toHaveLength(slides.length);
+    images.forEach((image, index) => {
+      const { img, alt } = slides[index];
+      const wide = img.width > img.height;
+      const kind = index < project.media.website.length ? "website" : "app";
+      const sizes = kind === "app"
+        ? "(min-width: 1000px) 880px, (min-width: 600px) calc(100vw - 64px), calc(100vw - 40px)"
+        : "(min-width: 1000px) min(calc(100vw - 128px), 1312px), (min-width: 600px) calc(100vw - 64px), calc(100vw - 40px)";
+      expect(alt.trim()).not.toBe("");
+      expect(image.getAttribute("alt")).toBe(alt);
+      expect(image.getAttribute("src")).toBe(img.small);
+      expect(image.getAttribute("width")).toBe(String(img.width));
+      expect(image.getAttribute("height")).toBe(String(img.height));
+      expect(image.getAttribute("srcset")).toBe(wide
+        ? `${img.small} ${Math.round(img.width / 2)}w, ${img.large} ${img.width}w`
+        : `${img.small} 1x, ${img.large} 2x`);
+      expect(image.getAttribute("sizes")).toBe(wide ? sizes : null);
+      expect(image.closest(".carousel").classList.contains(`carousel--${kind}`)).toBe(true);
+      expect(image.closest(".carousel").classList.contains(wide ? "carousel--wide" : "carousel--tall"))
+        .toBe(true);
+      expect(image.getAttribute("loading")).toBe(index === 0 ? "eager" : "lazy");
+    });
+    if (project.media.website.length && project.media.app.length) {
+      fireEvent.click(screen.getByRole("tab", { name: `App · ${project.media.app.length}` }));
+      expect(container.querySelectorAll('img[loading="eager"]')).toHaveLength(1);
+      expect(screen.getAllByRole("img").every((image) => image.getAttribute("loading") === "lazy"))
+        .toBe(true);
+    }
+  });
+
+  test("next-project navigation resets the selected tab and carousel position", () => {
+    window.history.pushState(null, "", "/work/nextplay/");
+    render(<App />);
+    const track = mockTrack(screen.getByRole("region", { name: "NextPlay Nutrition website screenshots" }));
+    flushScroll(track, 1000);
+    fireEvent.click(screen.getByRole("tab", { name: "App · 5" }));
+    fireEvent.click(within(screen.getByRole("navigation", { name: "Next project" }))
+      .getByRole("link", { name: "Ambé Wellness" }));
+    expect(screen.getByRole("tab", { name: "Website · 4" }).getAttribute("aria-selected"))
+      .toBe("true");
+    const region = screen.getByRole("region", { name: "Ambé Wellness website screenshots" });
+    expect(region.querySelector(".carousel-status").textContent).toBe("1 / 4 Home");
+    expect(region.querySelector(".carousel-track")).not.toBe(track);
+  });
 });

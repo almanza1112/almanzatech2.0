@@ -12,6 +12,78 @@ import chinesepod700 from "../assets/chinesepod-app-700.webp";
 import chinesepod1400 from "../assets/chinesepod-app-1400.webp";
 import djohwoww700 from "../assets/djohwoww-ss-700.webp";
 import djohwoww1400 from "../assets/djohwoww-ss-1400.webp";
+import nextplayWeb1Small from "../assets/case/nextplay-web-1-700.webp";
+import nextplayWeb1Large from "../assets/case/nextplay-web-1-1400.webp";
+import nextplayWeb2Small from "../assets/case/nextplay-web-2-700.webp";
+import nextplayWeb2Large from "../assets/case/nextplay-web-2-1400.webp";
+import nextplayWeb3Small from "../assets/case/nextplay-web-3-700.webp";
+import nextplayWeb3Large from "../assets/case/nextplay-web-3-1400.webp";
+import nextplayApp1Small from "../assets/case/nextplay-app-1-600.webp";
+import nextplayApp1Large from "../assets/case/nextplay-app-1-1200.webp";
+import nextplayApp2Small from "../assets/case/nextplay-app-2-600.webp";
+import nextplayApp2Large from "../assets/case/nextplay-app-2-1200.webp";
+import nextplayApp3Small from "../assets/case/nextplay-app-3-600.webp";
+import nextplayApp3Large from "../assets/case/nextplay-app-3-1200.webp";
+import nextplayApp4Small from "../assets/case/nextplay-app-4-600.webp";
+import nextplayApp4Large from "../assets/case/nextplay-app-4-1200.webp";
+import nextplayApp5Small from "../assets/case/nextplay-app-5-600.webp";
+import nextplayApp5Large from "../assets/case/nextplay-app-5-1200.webp";
+import ambeWeb1Small from "../assets/case/ambe-web-1-700.webp";
+import ambeWeb1Large from "../assets/case/ambe-web-1-1400.webp";
+import ambeWeb2Small from "../assets/case/ambe-web-2-700.webp";
+import ambeWeb2Large from "../assets/case/ambe-web-2-1400.webp";
+import ambeWeb3Small from "../assets/case/ambe-web-3-700.webp";
+import ambeWeb3Large from "../assets/case/ambe-web-3-1400.webp";
+import ambeWeb4Small from "../assets/case/ambe-web-4-700.webp";
+import ambeWeb4Large from "../assets/case/ambe-web-4-1400.webp";
+import ambeApp1Small from "../assets/case/ambe-app-1-600.webp";
+import ambeApp1Large from "../assets/case/ambe-app-1-1200.webp";
+import ambeApp2Small from "../assets/case/ambe-app-2-600.webp";
+import ambeApp2Large from "../assets/case/ambe-app-2-1200.webp";
+import ambeApp3Small from "../assets/case/ambe-app-3-600.webp";
+import ambeApp3Large from "../assets/case/ambe-app-3-1200.webp";
+import ambeApp4Small from "../assets/case/ambe-app-4-600.webp";
+import ambeApp4Large from "../assets/case/ambe-app-4-1200.webp";
+import curzonreloApp1Small from "../assets/case/curzonrelo-app-1-600.webp";
+import curzonreloApp1Large from "../assets/case/curzonrelo-app-1-1200.webp";
+import curzonreloApp2Small from "../assets/case/curzonrelo-app-2-600.webp";
+import curzonreloApp2Large from "../assets/case/curzonrelo-app-2-1200.webp";
+import curzonreloApp3Small from "../assets/case/curzonrelo-app-3-600.webp";
+import curzonreloApp3Large from "../assets/case/curzonrelo-app-3-1200.webp";
+import curzonreloApp4Small from "../assets/case/curzonrelo-app-4-600.webp";
+import curzonreloApp4Large from "../assets/case/curzonrelo-app-4-1200.webp";
+import curzonreloApp5Small from "../assets/case/curzonrelo-app-5-600.webp";
+import curzonreloApp5Large from "../assets/case/curzonrelo-app-5-1200.webp";
+import curzonreloApp6Small from "../assets/case/curzonrelo-app-6-600.webp";
+import curzonreloApp6Large from "../assets/case/curzonrelo-app-6-1200.webp";
+import persystApp1Small from "../assets/case/persyst-app-1-600.webp";
+import persystApp1Large from "../assets/case/persyst-app-1-1200.webp";
+import persystApp2Small from "../assets/case/persyst-app-2-600.webp";
+import persystApp2Large from "../assets/case/persyst-app-2-1200.webp";
+import persystApp3Small from "../assets/case/persyst-app-3-600.webp";
+import persystApp3Large from "../assets/case/persyst-app-3-1200.webp";
+import persystApp4Small from "../assets/case/persyst-app-4-600.webp";
+import persystApp4Large from "../assets/case/persyst-app-4-1200.webp";
+import chinesepodWeb1Small from "../assets/case/chinesepod-web-1-700.webp";
+import chinesepodWeb1Large from "../assets/case/chinesepod-web-1-1400.webp";
+import chinesepodWeb2Small from "../assets/case/chinesepod-web-2-700.webp";
+import chinesepodWeb2Large from "../assets/case/chinesepod-web-2-1400.webp";
+import chinesepodWeb3Small from "../assets/case/chinesepod-web-3-700.webp";
+import chinesepodWeb3Large from "../assets/case/chinesepod-web-3-1400.webp";
+import chinesepodWeb4Small from "../assets/case/chinesepod-web-4-700.webp";
+import chinesepodWeb4Large from "../assets/case/chinesepod-web-4-1400.webp";
+import chinesepodApp1Small from "../assets/case/chinesepod-app-1-600.webp";
+import chinesepodApp1Large from "../assets/case/chinesepod-app-1-1200.webp";
+import chinesepodApp2Small from "../assets/case/chinesepod-app-2-600.webp";
+import chinesepodApp2Large from "../assets/case/chinesepod-app-2-1200.webp";
+import chinesepodApp3Small from "../assets/case/chinesepod-app-3-600.webp";
+import chinesepodApp3Large from "../assets/case/chinesepod-app-3-1200.webp";
+import chinesepodApp4Small from "../assets/case/chinesepod-app-4-600.webp";
+import chinesepodApp4Large from "../assets/case/chinesepod-app-4-1200.webp";
+import chinesepodApp5Small from "../assets/case/chinesepod-app-5-600.webp";
+import chinesepodApp5Large from "../assets/case/chinesepod-app-5-1200.webp";
+import chinesepodApp6Small from "../assets/case/chinesepod-app-6-600.webp";
+import chinesepodApp6Large from "../assets/case/chinesepod-app-6-1200.webp";
 import { SITE } from "./site";
 
 const images = {
@@ -88,6 +160,12 @@ export const TESTIMONIALS = [
   },
 ];
 
+const slide = (small, large, width, height, label, alt) => ({
+  img: { small, large, width, height },
+  label,
+  alt,
+});
+
 // External arrows belong in an aria-hidden span, separate from the link label.
 export const CASE_STUDIES = [
   {
@@ -105,11 +183,56 @@ export const CASE_STUDIES = [
       text: "Add an enterprise client in the admin console and a dedicated AWS stack is created for them: their own sign-in, API, data storage and subdomain. One shared web app serves every client.",
     },
     roleLine: "Our role: Architecture, backend, web and mobile.",
-    caption: "Shown: the marketing website we built.",
     stack: "Next.js · Flutter · AWS",
     context:
       "Coaching with registered dietitians and chefs, informed by bloodwork, wearables and questionnaires.",
     img: images.nextplay,
+    media: {
+      website: [
+        slide(
+          nextplayWeb1Small, nextplayWeb1Large, 1400, 875,
+          "Home",
+          "NextPlay Nutrition home page: \"Nutrition tailored to your health\" with Get Started and Request Demo buttons"
+        ),
+        slide(
+          nextplayWeb2Small, nextplayWeb2Large, 1400, 875,
+          "Individuals",
+          "The Individuals page: \"NextPlay for You\""
+        ),
+        slide(
+          nextplayWeb3Small, nextplayWeb3Large, 1400, 875,
+          "Businesses",
+          "The Businesses page: \"NextPlay for Your Business\" with platform highlights"
+        ),
+      ],
+      app: [
+        slide(
+          nextplayApp1Small, nextplayApp1Large, 555, 1200,
+          "Home",
+          "App home screen with the day's calories, macros and today's meals"
+        ),
+        slide(
+          nextplayApp2Small, nextplayApp2Large, 555, 1200,
+          "Daily plan",
+          "Daily plan with a week calendar, macro targets and meals by time of day"
+        ),
+        slide(
+          nextplayApp3Small, nextplayApp3Large, 555, 1200,
+          "Meal Finder",
+          "Meal Finder listing nearby restaurant meals with match scores and macros"
+        ),
+        slide(
+          nextplayApp4Small, nextplayApp4Large, 555, 1200,
+          "Meal Builder",
+          "Meal Builder with a week of planned breakfasts, lunches and dinners"
+        ),
+        slide(
+          nextplayApp5Small, nextplayApp5Large, 555, 1200,
+          "Health",
+          "Health screen linking nutrition targets, bloodwork, body scan, recommendations and wearables"
+        ),
+      ],
+    },
     links: [
       { label: "Visit NextPlay Nutrition", href: "https://nextplaynutrition.com" },
     ],
@@ -121,7 +244,6 @@ export const CASE_STUDIES = [
     name: "Ambé Wellness",
     outcome: "A HIPAA-compliant membership platform, live in the App Store since May 2026.",
     testimonialId: "ambe",
-    caption: "Ambé's website, built alongside its app and backend.",
     kicker: "2026",
     roleLine: "Our role: Backend, mobile app and website",
     paragraphs: [
@@ -129,6 +251,52 @@ export const CASE_STUDIES = [
       "The platform handles protected health information, so HIPAA compliance shaped the architecture from the start. The app reached the App Store in May 2026.",
     ],
     img: images.ambe,
+    media: {
+      website: [
+        slide(
+          ambeWeb1Small, ambeWeb1Large, 1400, 875,
+          "Home",
+          "Ambé Wellness home page: \"Holistic-Doctor led care. Pay as you can.\""
+        ),
+        slide(
+          ambeWeb2Small, ambeWeb2Large, 1400, 875,
+          "Shop",
+          "The shop page: \"Remedies made for you\" with product filters"
+        ),
+        slide(
+          ambeWeb3Small, ambeWeb3Large, 1400, 875,
+          "Membership",
+          "The membership page: \"Your Wellness. Fully Covered.\" with plan benefits"
+        ),
+        slide(
+          ambeWeb4Small, ambeWeb4Large, 1400, 875,
+          "Health Tech",
+          "The health technology page: \"The science of feeling well has advanced.\""
+        ),
+      ],
+      app: [
+        slide(
+          ambeApp1Small, ambeApp1Large, 553, 1200,
+          "Welcome",
+          "Welcome screen: \"Holistic-Doctor led care. Pay as you like.\" with a Get Started button"
+        ),
+        slide(
+          ambeApp2Small, ambeApp2Large, 553, 1200,
+          "Store",
+          "In-app store of Ayurvedic remedies with Add buttons"
+        ),
+        slide(
+          ambeApp3Small, ambeApp3Large, 538, 1200,
+          "Sign in",
+          "Sign-in screen with email and password fields"
+        ),
+        slide(
+          ambeApp4Small, ambeApp4Large, 538, 1200,
+          "Onboarding",
+          "Onboarding screen: \"Tired of one size fits all supplements?\""
+        ),
+      ],
+    },
     links: [
       { label: "Visit website", href: "https://www.ambewellness.com/" },
       {
@@ -143,7 +311,6 @@ export const CASE_STUDIES = [
     cardText: "Relocation app we built, then rebuilt completely. Now on version 3.4.",
     name: "CurzonRelo",
     outcome: "Built, then rebuilt completely. Now on version 3.4.",
-    caption: "The member app, shown in its App Store artwork.",
     kicker: "2022–2025",
     roleLine: "Our role: iOS, Android and admin dashboard",
     paragraphs: [
@@ -151,6 +318,41 @@ export const CASE_STUDIES = [
       "We built the original app, then rebuilt it completely. Both the app and the dashboard are written in Flutter, so one codebase covers iOS and Android. It's now on version 3.4, and has been in the App Store since November 2022.",
     ],
     img: images.curzonrelo,
+    media: {
+      website: [],
+      app: [
+        slide(
+          curzonreloApp1Small, curzonreloApp1Large, 675, 1200,
+          "Sign in",
+          "App Store frame: \"Your Personal Global Relocation Service\" with the sign-in screen"
+        ),
+        slide(
+          curzonreloApp2Small, curzonreloApp2Large, 675, 1200,
+          "Relocating",
+          "App Store frame: \"For Anyone, Relocating Anywhere, On Any Budget\" with a route map"
+        ),
+        slide(
+          curzonreloApp3Small, curzonreloApp3Large, 675, 1200,
+          "Overview",
+          "App Store frame: the relocation brief overview"
+        ),
+        slide(
+          curzonreloApp4Small, curzonreloApp4Large, 675, 1200,
+          "Destination",
+          "App Store frame: \"Select Your Destination\" on a map"
+        ),
+        slide(
+          curzonreloApp5Small, curzonreloApp5Large, 675, 1200,
+          "Property brief",
+          "App Store frame: choosing property type, bedrooms and bathrooms"
+        ),
+        slide(
+          curzonreloApp6Small, curzonreloApp6Large, 675, 1200,
+          "ReloAdvisor",
+          "App Store frame: the ReloAdvisor view with scheduled calls"
+        ),
+      ],
+    },
     links: [
       {
         label: "View on the App Store",
@@ -165,7 +367,6 @@ export const CASE_STUDIES = [
     name: "PerSyst Fitness Trainer",
     outcome: "A tablet app that drives a strength-training machine over Bluetooth.",
     testimonialId: "persyst",
-    caption: "The tablet app's exercise screen. Our work covered the app.",
     kicker: "2023",
     roleLine: "Our role: Mobile app development",
     paragraphs: [
@@ -173,6 +374,31 @@ export const CASE_STUDIES = [
       "The hard part: there's a loaded bar on the other end of the connection. The app has to stay responsive to a machine it doesn't control, and handle a lost connection in the middle of a set. In the App Store since January 2023.",
     ],
     img: images.persyst,
+    media: {
+      website: [],
+      app: [
+        slide(
+          persystApp1Small, persystApp1Large, 2134, 1200,
+          "Exercise",
+          "Exercise screen with lift weight, body weight and target one-rep-max sliders"
+        ),
+        slide(
+          persystApp2Small, persystApp2Large, 2134, 1200,
+          "Mode",
+          "Mode screen: pyramids, assists, burns, negatives and blocks"
+        ),
+        slide(
+          persystApp3Small, persystApp3Large, 2134, 1200,
+          "Assisted lift",
+          "A bench press with assist in progress"
+        ),
+        slide(
+          persystApp4Small, persystApp4Large, 2134, 1200,
+          "Results",
+          "Hoist Assist results with strength and muscle-growth gauges"
+        ),
+      ],
+    },
     links: [
       {
         label: "View on the App Store",
@@ -189,10 +415,62 @@ export const CASE_STUDIES = [
     kicker: "January–June 2024",
     roleLine: "Our role: Backend rewrite and mobile technical lead",
     img: images.chinesepodSite,
-    caption: "ChinesePod's website.",
-    gallery: [
-      { img: images.chinesepod, caption: "The ChinesePod app, shown in its App Store screenshots." },
-    ],
+    media: {
+      website: [
+        slide(
+          chinesepodWeb1Small, chinesepodWeb1Large, 1400, 875,
+          "Home",
+          "ChinesePod home page: \"Learn Mandarin with ChinesePod\""
+        ),
+        slide(
+          chinesepodWeb2Small, chinesepodWeb2Large, 1400, 875,
+          "Why ChinesePod",
+          "The \"Why ChinesePod\" section and course levels from Newbie to Advanced"
+        ),
+        slide(
+          chinesepodWeb3Small, chinesepodWeb3Large, 1400, 875,
+          "For companies",
+          "The corporate page: \"Business Chinese (Mandarin) Training for Corporate Clients\""
+        ),
+        slide(
+          chinesepodWeb4Small, chinesepodWeb4Large, 1400, 875,
+          "For schools",
+          "The schools page: \"Mandarin Chinese Programs for Schools & Educators\""
+        ),
+      ],
+      app: [
+        slide(
+          chinesepodApp1Small, chinesepodApp1Large, 675, 1200,
+          "Lessons",
+          "App Store screenshot of the home screen with lesson categories"
+        ),
+        slide(
+          chinesepodApp2Small, chinesepodApp2Large, 675, 1200,
+          "Playlists",
+          "App Store screenshot of HSK vocabulary playlists"
+        ),
+        slide(
+          chinesepodApp3Small, chinesepodApp3Large, 675, 1200,
+          "Dialogue",
+          "App Store screenshot of a lesson's dialogue transcript"
+        ),
+        slide(
+          chinesepodApp4Small, chinesepodApp4Large, 675, 1200,
+          "Vocabulary",
+          "App Store screenshot of lesson vocabulary in Chinese, pinyin and English"
+        ),
+        slide(
+          chinesepodApp5Small, chinesepodApp5Large, 675, 1200,
+          "Flashcards",
+          "App Store screenshot of flashcard practice"
+        ),
+        slide(
+          chinesepodApp6Small, chinesepodApp6Large, 675, 1200,
+          "Settings",
+          "App Store screenshot of account settings and download options"
+        ),
+      ],
+    },
     paragraphs: [
       "An established Mandarin-learning platform needed a new API for an existing audience and content library. We built version 2 in Node.js and led technical decisions for the native iOS and Android apps, working with the client's distributed teams in Pakistan and the Philippines.",
     ],
@@ -212,6 +490,12 @@ export const CASE_PAGE_COPY = {
   back: { label: "← All work", href: "/#work" },
   builtWith: "Built with",
   nextProject: "Next project",
+  media: {
+    website: "Website",
+    app: "App",
+    previous: "Previous screenshot",
+    next: "Next screenshot",
+  },
   heading: "Want something like this built?",
   cta: { label: "Tell us about your project", href: "/#contact" },
 };
