@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "nextplay",
+    "name": "NextPlay Nutrition",
+    "outcome": "Every corporate client gets its own dedicated AWS setup, served by one shared web app."
+  },
+  {
+    "slug": "ambe",
+    "name": "Ambé Wellness",
+    "outcome": "A HIPAA-compliant membership platform, live in the App Store since May 2026."
+  },
+  {
+    "slug": "curzonrelo",
+    "name": "CurzonRelo",
+    "outcome": "Built, then rebuilt completely. Now on version 3.4."
+  },
+  {
+    "slug": "persyst",
+    "name": "PerSyst Fitness Trainer",
+    "outcome": "A tablet app that drives a strength-training machine over Bluetooth."
+  },
+  {
+    "slug": "chinesepod",
+    "name": "ChinesePod",
+    "outcome": "Version 2 of the API behind an established learning app."
+  }
+]

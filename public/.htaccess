@@ -32,9 +32,9 @@
 
 <IfModule mod_headers.c>
   # Create React App fingerprints these filenames (main.5b1d69f0.js,
-  # main_vid_bg.246d857d8b8a5f03c29a.mp4). The content behind a given name can
-  # never change, so cache it for a year and stop re-downloading the 4.4MB
-  # video on every repeat visit.
+  # nextplay-ss-1400.246d857d8b8a5f03c29a.webp). The content behind a given name
+  # can never change, so cache it for a year and avoid re-downloading it on
+  # every repeat visit.
   <FilesMatch "\.[0-9a-f]{8,20}\.(js|css|png|jpe?g|gif|svg|webp|mp4|woff2?)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>

@@ -1,38 +1,53 @@
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
-import Main from "./components/Main";
-import WhatWeDo from "./components/WhatWeDo";
-import Proof from "./components/Proof";
+import Hero from "./components/Hero";
+import Work from "./components/Work";
+import Services from "./components/Services";
 import Process from "./components/Process";
-import ThePowerOfCustomization from "./components/ThePowerOfCustomization";
-import WhoWeAre from "./components/WhoWeAre";
-import AdvantagesOfWorkingWithUs from "./components/AdvantagesOfWorkingWithUs";
+import About from "./components/About";
+import Faq from "./components/Faq";
 import ContactUs from "./components/ContactUs";
 import Footer from "./components/Footer";
-import MobileCTA from "./components/MobileCTA";
+import CallBar from "./components/CallBar";
+import CaseStudyPage from "./components/CaseStudyPage";
+import { PAGE_COPY } from "./data/work";
+import { useRoute } from "./lib/router";
 import useSectionViews from "./hooks/useSectionViews";
 
-const TRACKED_SECTIONS = ["services", "process", "about", "contact"];
+const TRACKED_SECTIONS = ["services", "work", "process", "about", "faq", "contact"];
+
+const HomePage = () => {
+  useSectionViews(TRACKED_SECTIONS);
+  useEffect(() => {
+    document.title = PAGE_COPY.homeTitle;
+  }, []);
+
+  return (
+    <>
+      <Hero />
+      <Services />
+      <Work />
+      <Process />
+      <About />
+      <Faq />
+      <ContactUs />
+    </>
+  );
+};
 
 function App() {
-  useSectionViews(TRACKED_SECTIONS);
+  const route = useRoute();
 
   return (
     <>
       <Navbar />
 
       <main>
-        <Main />
-        <WhatWeDo />
-        <Proof />
-        <Process />
-        <ThePowerOfCustomization />
-        <WhoWeAre />
-        <AdvantagesOfWorkingWithUs />
-        <ContactUs />
+        {route.page === "case" ? <CaseStudyPage slug={route.slug} /> : <HomePage />}
       </main>
 
       <Footer />
-      <MobileCTA />
+      <CallBar key={route.page} />
     </>
   );
 }

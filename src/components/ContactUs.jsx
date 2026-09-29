@@ -1,16 +1,6 @@
 import React, { useRef, useState } from "react";
-import {
-  FiAlertCircle,
-  FiCheck,
-  FiClock,
-  FiLoader,
-  FiMail,
-  FiPhone,
-  FiSend,
-} from "react-icons/fi";
-import Reveal from "./ui/Reveal";
-import SectionHeading from "./ui/SectionHeading";
 import { SITE } from "../data/site";
+import { PAGE_COPY } from "../data/work";
 import { track } from "../lib/analytics";
 
 const FORM_ENDPOINT = "https://sheetdb.io/api/v1/i2bbvaqeluzn2";
@@ -58,102 +48,32 @@ const ContactUs = () => {
 
   const sending = status === STATUS.SENDING;
 
-  const channels = [
-    {
-      icon: FiMail,
-      label: "Email",
-      value: SITE.email,
-      href: `mailto:${SITE.email}`,
-    },
-    {
-      icon: FiPhone,
-      label: "Phone",
-      value: SITE.phoneDisplay,
-      href: SITE.phoneHref,
-    },
-  ];
+  const copy = PAGE_COPY.contact;
+  const [subjectLabel, subjectOptional] = copy.fields.subject.split(/ (?=\()/);
+  const [successBeforePhone, successAfterPhone] = copy.success.message.split(
+    SITE.phoneDisplay
+  );
+  const [errorBeforeEmail, errorAfterEmail] = copy.error.split(SITE.email);
 
   return (
-    <section id="contact" className="section section--ruled">
-      <div className="shell">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Details */}
-          <div>
-            <SectionHeading
-              index="06"
-              label="Contact"
-              title="Tell us what you are building."
-              lead="Send a message or call us directly. We will get back to you with honest next steps — no obligation, no sales script."
-            />
+    <section
+      id="contact"
+      className="contact-section"
+      aria-labelledby="contact-title"
+    >
+      <div className="wrap">
+        <div className="contact-head">
+          <h2 id="contact-title">{copy.heading}</h2>
+          <p>{copy.intro}</p>
+        </div>
 
-            <div className="mt-10 space-y-3">
-              {channels.map((channel, i) => {
-                const Icon = channel.icon;
-                return (
-                  <Reveal key={channel.label} delay={i * 90}>
-                    <a
-                      href={channel.href}
-                      onClick={() =>
-                        track("contact_click", {
-                          channel: channel.href.startsWith("tel:")
-                            ? "phone"
-                            : "email",
-                          location: "contact",
-                        })
-                      }
-                      className="card card-hover !flex-row items-center gap-5 !py-5"
-                    >
-                      <span className="icon-chip">
-                        <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
-                      </span>
-                      <span className="flex flex-col">
-                        <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted">
-                          {channel.label}
-                        </span>
-                        <span className="mt-1 break-all font-display text-base font-semibold sm:text-lg">
-                          {channel.value}
-                        </span>
-                      </span>
-                    </a>
-                  </Reveal>
-                );
-              })}
-
-              <Reveal delay={180}>
-                <div className="card !flex-row items-start gap-5 !py-5">
-                  <span className="icon-chip">
-                    <FiClock size={20} strokeWidth={1.5} aria-hidden="true" />
-                  </span>
-                  <span className="flex flex-col">
-                    <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted">
-                      Hours
-                    </span>
-                    {SITE.hours.map((slot) => (
-                      <span key={slot.days} className="mt-1 text-sm">
-                        <span className="font-semibold">{slot.days}</span>{" "}
-                        <span className="text-muted">{slot.time}</span>
-                      </span>
-                    ))}
-                  </span>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-
-          {/* Form */}
-          <Reveal variant="right" delay={120} className="card !p-6 sm:!p-8 lg:!p-10">
+        <div className="contact-grid">
+          <div className="contact-form-wrap">
             {status === STATUS.SENT ? (
-              <div
-                className="flex flex-col items-center justify-center py-12 text-center"
-                role="status"
-              >
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary text-primary">
-                  <FiCheck size={30} aria-hidden="true" />
-                </span>
-                <h3 className="mt-6 font-display text-2xl font-bold">Message sent</h3>
-                <p className="mt-3 max-w-sm text-muted">
-                  Thanks for reaching out — we will get back to you shortly. If it is
-                  urgent, give us a call at{" "}
+              <div className="contact-success" role="status">
+                <h3>{copy.success.heading}</h3>
+                <p>
+                  {successBeforePhone}
                   <a
                     href={SITE.phoneHref}
                     onClick={() =>
@@ -162,79 +82,78 @@ const ContactUs = () => {
                         location: "contact",
                       })
                     }
-                    className="link-underline text-primary"
+                    className="contact-link"
                   >
                     {SITE.phoneDisplay}
                   </a>
-                  .
+                  {successAfterPhone}
                 </p>
                 <button
                   type="button"
                   onClick={() => setStatus(STATUS.IDLE)}
-                  className="btn btn-ghost mt-8"
+                  className="btn contact-submit"
                 >
-                  Send another
+                  {copy.success.reset}
                 </button>
               </div>
             ) : (
-              <form ref={formRef} onSubmit={handleSubmit} noValidate={false}>
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label className="field-label" htmlFor="cf-name">
-                      Name
-                    </label>
+              <form
+                className="contact-form"
+                ref={formRef}
+                onSubmit={handleSubmit}
+                noValidate={false}
+                aria-labelledby="contact-title"
+              >
+                <div className="contact-form-row">
+                  <div className="contact-field">
+                    <label htmlFor="cf-name">{copy.fields.name}</label>
                     <input
                       id="cf-name"
-                      className="field"
+                      className="contact-input"
                       type="text"
                       name="name"
-                      placeholder="Jane Rivera"
                       autoComplete="name"
                       required
                     />
                   </div>
 
-                  <div>
-                    <label className="field-label" htmlFor="cf-email">
-                      Email
-                    </label>
+                  <div className="contact-field">
+                    <label htmlFor="cf-email">{copy.fields.email}</label>
                     <input
                       id="cf-email"
-                      className="field"
+                      className="contact-input"
                       type="email"
                       name="email"
-                      placeholder="jane@company.com"
                       autoComplete="email"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="mt-5">
-                  <label className="field-label" htmlFor="cf-subject">
-                    Subject <span className="normal-case opacity-60">(optional)</span>
+                <div className="contact-field">
+                  <label htmlFor="cf-subject">
+                    {subjectLabel} <span>{subjectOptional}</span>
                   </label>
                   <input
                     id="cf-subject"
-                    className="field"
+                    className="contact-input"
                     type="text"
                     name="subject"
-                    placeholder="New website for my business"
                   />
                 </div>
 
-                <div className="mt-5">
-                  <label className="field-label" htmlFor="cf-message">
-                    Message
-                  </label>
+                <div className="contact-field">
+                  <label htmlFor="cf-message">{copy.fields.message}</label>
                   <textarea
                     id="cf-message"
-                    className="field resize-y"
+                    className="contact-input"
                     name="message"
-                    rows="6"
-                    placeholder="A few lines about your business and what you need."
+                    aria-describedby="cf-message-hint"
                     required
                   />
+                  <p className="contact-hint" id="cf-message-hint">
+                    {copy.hint}
+                  </p>
                 </div>
 
                 {/* Honeypot — hidden from people, visible to bots */}
@@ -244,59 +163,71 @@ const ContactUs = () => {
                   tabIndex={-1}
                   autoComplete="off"
                   aria-hidden="true"
-                  className="absolute h-px w-px overflow-hidden opacity-0"
-                  style={{ left: "-9999px" }}
+                  className="sr-only"
                 />
 
                 <button
                   type="submit"
-                  className="btn btn-primary btn-block mt-7"
+                  className="btn contact-submit"
                   disabled={sending}
                 >
-                  {sending ? "Sending" : "Send message"}
-                  {sending ? (
-                    <FiLoader className="animate-spin" size={16} aria-hidden="true" />
-                  ) : (
-                    <FiSend size={16} aria-hidden="true" />
-                  )}
+                  {sending ? copy.sending : copy.submit}
                 </button>
 
-                <p className="mt-4 text-center font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted">
-                  We reply to every message
-                </p>
-
                 {status === STATUS.ERROR ? (
-                  <p
-                    className="mt-5 flex items-start gap-3 border border-line-strong bg-ink px-4 py-3.5 text-sm"
-                    role="alert"
-                  >
-                    <FiAlertCircle
-                      className="mt-0.5 shrink-0 text-primary"
-                      size={16}
-                      aria-hidden="true"
-                    />
-                    <span>
-                      That did not go through. Please try again, or email us directly
-                      at{" "}
-                      <a
-                        href={`mailto:${SITE.email}`}
-                        onClick={() =>
-                          track("contact_click", {
-                            channel: "email",
-                            location: "contact",
-                          })
-                        }
-                        className="link-underline text-primary"
-                      >
-                        {SITE.email}
-                      </a>
-                      .
-                    </span>
+                  <p className="contact-error" role="alert">
+                    {errorBeforeEmail}
+                    <a
+                      href={`mailto:${SITE.email}`}
+                      onClick={() =>
+                        track("contact_click", {
+                          channel: "email",
+                          location: "contact",
+                        })
+                      }
+                      className="contact-link"
+                    >
+                      {SITE.email}
+                    </a>
+                    {errorAfterEmail}
                   </p>
                 ) : null}
               </form>
             )}
-          </Reveal>
+          </div>
+
+          <div className="contact-details">
+            <h3>{copy.phoneHeading}</h3>
+            <a
+              className="contact-link contact-phone"
+              href={SITE.phoneHref}
+              onClick={() =>
+                track("contact_click", { channel: "phone", location: "contact" })
+              }
+            >
+              {SITE.phoneDisplay}
+            </a>
+            <a
+              className="contact-link contact-email"
+              href={`mailto:${SITE.email}`}
+              onClick={() =>
+                track("contact_click", { channel: "email", location: "contact" })
+              }
+            >
+              {SITE.email}
+            </a>
+            <div className="contact-hours">
+              <h4>{copy.hoursHeading}</h4>
+              {copy.hours.map((hours) => (
+                <p key={hours}>{hours}</p>
+              ))}
+            </div>
+            <p className="contact-local">
+              {copy.company}
+              <br />
+              {copy.location}
+            </p>
+          </div>
         </div>
       </div>
     </section>
