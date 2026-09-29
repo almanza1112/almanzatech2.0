@@ -714,6 +714,18 @@
         line-height: 1.6;
     }
 
+    .about-quote blockquote p {
+        text-indent: -0.42em;
+    }
+
+    .about-quote blockquote p::before {
+        content: "\201C";
+    }
+
+    .about-quote blockquote p::after {
+        content: "\201D";
+    }
+
     .about-quote figcaption {
         margin-top: 20px;
         padding-top: 16px;
@@ -1257,6 +1269,18 @@
     .case-quote blockquote {
         font-size: 20px;
         line-height: 1.65;
+    }
+
+    .case-quote blockquote p {
+        text-indent: -0.42em;
+    }
+
+    .case-quote blockquote p::before {
+        content: "\201C";
+    }
+
+    .case-quote blockquote p::after {
+        content: "\201D";
     }
 
     .case-quote figcaption {
