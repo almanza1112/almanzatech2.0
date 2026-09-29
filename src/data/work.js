@@ -396,8 +396,16 @@ export const PAGE_COPY = {
     fields: {
       name: "Your name",
       email: "Email address",
-      subject: "Subject (optional)",
       message: "What would you like to build?",
+    },
+    need: {
+      legend: "What do you need? (optional)",
+      options: [
+        { value: "website", label: "Website" },
+        { value: "app", label: "App" },
+        { value: "it-support", label: "IT support" },
+        { value: "not-sure", label: "Not sure" },
+      ],
     },
     hint: "Rough ideas are fine.",
     submit: "Send message",
@@ -410,6 +418,13 @@ export const PAGE_COPY = {
     },
     error:
       "That didn't go through. Please try again, or email info@almanzatech.com.",
+    recaptcha: {
+      before: "This site is protected by reCAPTCHA and the Google ",
+      privacy: "Privacy Policy",
+      and: " and ",
+      terms: "Terms of Service",
+      after: " apply.",
+    },
   },
   footer: {
     tagline: "Websites, apps and the systems behind them, since 2019.",

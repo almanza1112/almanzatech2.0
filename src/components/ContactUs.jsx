@@ -3,10 +3,9 @@ import { SITE } from "../data/site";
 import { PAGE_COPY } from "../data/work";
 import { track } from "../lib/analytics";
 
-const FORM_ENDPOINT = "https://sheetdb.io/api/v1/i2bbvaqeluzn2";
-
-/** Named so bots fill it in, stripped before submit so the sheet never sees it. */
+// Named so bots fill it in; a filled value shows fake success and sends nothing.
 const HONEYPOT = "company_website";
+const LIMITS = { name: 100, email: 254, message: 5000 };
 
 const STATUS = {
   IDLE: "idle",
@@ -17,7 +16,16 @@ const STATUS = {
 
 const ContactUs = () => {
   const formRef = useRef(null);
+  const preparedRef = useRef(false);
   const [status, setStatus] = useState(STATUS.IDLE);
+
+  const handleFocus = () => {
+    if (preparedRef.current) return;
+    preparedRef.current = true;
+    import("../lib/leads")
+      .then(({ prepareLeadClient }) => prepareLeadClient())
+      .catch(() => {});
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,14 +39,19 @@ const ContactUs = () => {
       setStatus(STATUS.SENT);
       return;
     }
-    data.delete(HONEYPOT);
+    const need = data.get("need");
 
     setStatus(STATUS.SENDING);
 
     try {
-      const response = await fetch(FORM_ENDPOINT, { method: "POST", body: data });
-      if (!response.ok) throw new Error(`Request failed: ${response.status}`);
-      track("contact_submit", {});
+      const { submitLead } = await import("../lib/leads");
+      await submitLead({
+        name: data.get("name"),
+        email: data.get("email"),
+        need,
+        message: data.get("message"),
+      });
+      track("contact_submit", { need: need || "unspecified" });
       setStatus(STATUS.SENT);
       form.reset();
     } catch (error) {
@@ -49,7 +62,7 @@ const ContactUs = () => {
   const sending = status === STATUS.SENDING;
 
   const copy = PAGE_COPY.contact;
-  const [subjectLabel, subjectOptional] = copy.fields.subject.split(/ (?=\()/);
+  const [needLegend, needOptional] = copy.need.legend.split(/ (?=\()/);
   const [successBeforePhone, successAfterPhone] = copy.success.message.split(
     SITE.phoneDisplay
   );
@@ -100,6 +113,7 @@ const ContactUs = () => {
               <form
                 className="contact-form"
                 ref={formRef}
+                onFocus={handleFocus}
                 onSubmit={handleSubmit}
                 noValidate={false}
                 aria-labelledby="contact-title"
@@ -113,6 +127,7 @@ const ContactUs = () => {
                       type="text"
                       name="name"
                       autoComplete="name"
+                      maxLength={LIMITS.name}
                       required
                     />
                   </div>
@@ -125,22 +140,25 @@ const ContactUs = () => {
                       type="email"
                       name="email"
                       autoComplete="email"
+                      maxLength={LIMITS.email}
                       required
                     />
                   </div>
                 </div>
 
-                <div className="contact-field">
-                  <label htmlFor="cf-subject">
-                    {subjectLabel} <span>{subjectOptional}</span>
-                  </label>
-                  <input
-                    id="cf-subject"
-                    className="contact-input"
-                    type="text"
-                    name="subject"
-                  />
-                </div>
+                <fieldset className="contact-need">
+                  <legend>
+                    {needLegend} <span>{needOptional}</span>
+                  </legend>
+                  <div className="contact-need-options">
+                    {copy.need.options.map(({ value, label }) => (
+                      <label key={value}>
+                        <input type="radio" name="need" value={value} />
+                        <span>{label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
 
                 <div className="contact-field">
                   <label htmlFor="cf-message">{copy.fields.message}</label>
@@ -149,6 +167,7 @@ const ContactUs = () => {
                     className="contact-input"
                     name="message"
                     aria-describedby="cf-message-hint"
+                    maxLength={LIMITS.message}
                     required
                   />
                   <p className="contact-hint" id="cf-message-hint">
@@ -192,6 +211,18 @@ const ContactUs = () => {
                     {errorAfterEmail}
                   </p>
                 ) : null}
+
+                <p className="contact-legal">
+                  {copy.recaptcha.before}
+                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+                    {copy.recaptcha.privacy}
+                  </a>
+                  {copy.recaptcha.and}
+                  <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">
+                    {copy.recaptcha.terms}
+                  </a>
+                  {copy.recaptcha.after}
+                </p>
               </form>
             )}
           </div>

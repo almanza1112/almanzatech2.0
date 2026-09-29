@@ -37,6 +37,10 @@ jest.mock("./lib/motion", () => ({
 }));
 
 jest.mock("./lib/analytics", () => ({ track: jest.fn() }));
+jest.mock("./lib/leads", () => ({
+  submitLead: jest.fn(),
+  prepareLeadClient: jest.fn(() => Promise.resolve()),
+}));
 
 beforeEach(() => {
   window.history.replaceState(null, "", "/");
@@ -109,11 +113,12 @@ test("renders the whole page without crashing", () => {
   for (const label of [
     "Your name",
     "Email address",
-    "Subject (optional)",
     "What would you like to build?",
   ]) {
     expect(within(form).getByLabelText(label, { exact: true })).toBeTruthy();
   }
+  const needs = within(form).getByRole("group", { name: "What do you need? (optional)" });
+  expect(within(needs).getAllByRole("radio")).toHaveLength(4);
   expect(within(form).getByRole("button", { name: "Send message" })).toBeTruthy();
 
   const footer = screen.getByRole("contentinfo");
@@ -324,21 +329,16 @@ test("section views track the six homepage sections in document order", () => {
 });
 
 describe("contact form", () => {
-  const originalFetch = global.fetch;
+  const { submitLead, prepareLeadClient } = require("./lib/leads");
   const values = {
     name: "Jane Rivera",
     email: "jane@example.com",
-    subject: "A new website",
     message: "I would like to build a website for my business.",
   };
 
   beforeEach(() => {
-    global.fetch = jest.fn();
-  });
-
-  afterEach(() => {
-    if (originalFetch === undefined) delete global.fetch;
-    else global.fetch = originalFetch;
+    submitLead.mockReset();
+    prepareLeadClient.mockReset().mockResolvedValue();
   });
 
   const fillForm = () => {
@@ -351,7 +351,9 @@ describe("contact form", () => {
 
   const renderContact = () =>
     render(
-      <div onClick={(event) => event.preventDefault()}>
+      <div onClick={(event) => {
+        if (event.target.closest("a")) event.preventDefault();
+      }}>
         <ContactUs />
       </div>
     );
@@ -361,10 +363,25 @@ describe("contact form", () => {
     const form = screen.getByRole("form", { name: PAGE_COPY.contact.heading });
     expect(form.noValidate).toBe(false);
     expect(form.checkValidity()).toBe(false);
-    for (const name of ["name", "email", "message"]) {
+    for (const [name, limit] of [["name", 100], ["email", 254], ["message", 5000]]) {
       expect(form.elements.namedItem(name).required).toBe(true);
+      expect(form.elements.namedItem(name).maxLength).toBe(limit);
     }
-    expect(form.elements.namedItem("subject").required).toBe(false);
+    expect(form.elements.namedItem("subject")).toBeNull();
+    const needs = screen.getByRole("group", { name: "What do you need? (optional)" });
+    expect(needs.tagName).toBe("FIELDSET");
+    expect(needs.querySelector("legend span").textContent).toBe("(optional)");
+    expect(within(needs).getAllByRole("radio")).toHaveLength(4);
+    for (const [value, label] of [
+      ["website", "Website"], ["app", "App"],
+      ["it-support", "IT support"], ["not-sure", "Not sure"],
+    ]) {
+      const radio = within(needs).getByRole("radio", { name: label });
+      expect(radio.name).toBe("need");
+      expect(radio.value).toBe(value);
+      expect(radio.checked).toBe(false);
+      expect(radio.required).toBe(false);
+    }
     for (const name of ["name", "email"]) {
       expect(form.elements.namedItem(name).getAttribute("autocomplete")).toBe(name);
     }
@@ -401,52 +418,52 @@ describe("contact form", () => {
     ]);
   });
 
-  test("posts FormData once while sending, then tracks success and resets", async () => {
-    let completeRequest;
-    global.fetch.mockImplementation(() => new Promise((resolve) => {
-      completeRequest = resolve;
-    }));
+  test.each([null, "website", "app", "it-support", "not-sure"])(
+    "submits once with need %s, then tracks success and resets", async (need) => {
+      let completeRequest;
+      submitLead.mockImplementation(() => new Promise((resolve) => {
+        completeRequest = resolve;
+      }));
+      renderContact();
+      const form = fillForm();
+      if (need) fireEvent.click(form.querySelector(`input[value="${need}"]`));
+      const reset = jest.spyOn(form, "reset");
+      fireEvent.submit(form);
+      expect(screen.getByRole("button", { name: "Sending" }).disabled).toBe(true);
+      fireEvent.submit(form);
+      await waitFor(() => expect(submitLead).toHaveBeenCalledTimes(1));
+      expect(submitLead).toHaveBeenCalledWith({ ...values, need });
+      expect(track).not.toHaveBeenCalled();
+
+      await act(async () => completeRequest({ ok: true }));
+      const success = screen.getByRole("status");
+      expect(within(success).getByRole("heading", { name: "Message sent" }))
+        .toBeTruthy();
+      const phone = within(success).getByRole("link", { name: SITE.phoneDisplay });
+      expect(phone.parentElement.textContent).toBe(PAGE_COPY.contact.success.message);
+      expect(phone.getAttribute("href")).toBe(SITE.phoneHref);
+      expect(reset).toHaveBeenCalledTimes(1);
+      expect(track.mock.calls).toEqual([["contact_submit", { need: need || "unspecified" }]]);
+      expect(screen.queryByRole("form")).toBeNull();
+
+      fireEvent.click(phone);
+      expect(track).toHaveBeenLastCalledWith("contact_click", {
+        channel: "phone", location: "contact",
+      });
+      fireEvent.click(within(success).getByRole("button", { name: "Send another" }));
+      Object.values(PAGE_COPY.contact.fields).forEach((label) => {
+        expect(screen.getByLabelText(label).value).toBe("");
+      });
+      screen.getAllByRole("radio").forEach((radio) => expect(radio.checked).toBe(false));
+    }
+  );
+
+  test.each(["callable", "network"])("%s failure preserves values and allows retry", async (failure) => {
+    submitLead.mockRejectedValueOnce(new Error(`${failure} failure`));
+    submitLead.mockResolvedValueOnce({ ok: true });
     renderContact();
     const form = fillForm();
-    const reset = jest.spyOn(form, "reset");
-    fireEvent.submit(form);
-    expect(screen.getByRole("button", { name: "Sending" }).disabled).toBe(true);
-    fireEvent.submit(form);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-    const [endpoint, request] = global.fetch.mock.calls[0];
-    expect(endpoint).toBe("https://sheetdb.io/api/v1/i2bbvaqeluzn2");
-    expect(request.method).toBe("POST");
-    expect(request.body).toBeInstanceOf(FormData);
-    expect(Object.fromEntries(request.body.entries())).toEqual(values);
-    expect(track).not.toHaveBeenCalled();
-
-    await act(async () => completeRequest({ ok: true }));
-    const success = screen.getByRole("status");
-    expect(within(success).getByRole("heading", { name: "Message sent" }))
-      .toBeTruthy();
-    const phone = within(success).getByRole("link", { name: SITE.phoneDisplay });
-    expect(phone.parentElement.textContent).toBe(PAGE_COPY.contact.success.message);
-    expect(phone.getAttribute("href")).toBe(SITE.phoneHref);
-    expect(reset).toHaveBeenCalledTimes(1);
-    expect(track.mock.calls).toEqual([["contact_submit", {}]]);
-    expect(screen.queryByRole("form")).toBeNull();
-
-    fireEvent.click(phone);
-    expect(track).toHaveBeenLastCalledWith("contact_click", {
-      channel: "phone", location: "contact",
-    });
-    fireEvent.click(within(success).getByRole("button", { name: "Send another" }));
-    Object.values(PAGE_COPY.contact.fields).forEach((label) => {
-      expect(screen.getByLabelText(label).value).toBe("");
-    });
-  });
-
-  test.each(["HTTP", "network"])("%s failure preserves values and allows retry", async (failure) => {
-    if (failure === "HTTP") global.fetch.mockResolvedValueOnce({ ok: false, status: 500 });
-    else global.fetch.mockRejectedValueOnce(new Error("Network failure"));
-    global.fetch.mockResolvedValueOnce({ ok: true });
-    renderContact();
-    const form = fillForm();
+    fireEvent.click(screen.getByRole("radio", { name: "IT support" }));
     const reset = jest.spyOn(form, "reset");
     fireEvent.submit(form);
     const alert = await screen.findByRole("alert");
@@ -456,6 +473,7 @@ describe("contact form", () => {
     Object.entries(values).forEach(([name, value]) => {
       expect(form.elements.namedItem(name).value).toBe(value);
     });
+    expect(screen.getByRole("radio", { name: "IT support" }).checked).toBe(true);
     expect(screen.getByRole("button", { name: "Send message" }).disabled).toBe(false);
     const email = within(alert).getByRole("link", { name: SITE.email });
     expect(email.getAttribute("href")).toBe(`mailto:${SITE.email}`);
@@ -466,12 +484,11 @@ describe("contact form", () => {
 
     fireEvent.submit(form);
     await screen.findByRole("status");
-    expect(global.fetch).toHaveBeenCalledTimes(2);
-    expect(Object.fromEntries(global.fetch.mock.calls[1][1].body.entries()))
-      .toEqual(values);
+    expect(submitLead).toHaveBeenCalledTimes(2);
+    expect(submitLead).toHaveBeenNthCalledWith(2, { ...values, need: "it-support" });
     expect(reset).toHaveBeenCalledTimes(1);
     expect(track.mock.calls.filter(([event]) => event === "contact_submit"))
-      .toEqual([["contact_submit", {}]]);
+      .toEqual([["contact_submit", { need: "it-support" }]]);
   });
 
   test("a filled honeypot shows success without a request or submit analytics", () => {
@@ -482,8 +499,48 @@ describe("contact form", () => {
     });
     fireEvent.submit(form);
     expect(screen.getByRole("status")).toBeTruthy();
-    expect(global.fetch).not.toHaveBeenCalled();
+    expect(submitLead).not.toHaveBeenCalled();
     expect(track).not.toHaveBeenCalled();
+  });
+
+  test("focus prepares the client once per mount, including after a warm-up failure", async () => {
+    prepareLeadClient.mockRejectedValueOnce(new Error("Chunk failed"));
+    submitLead.mockResolvedValueOnce({ ok: true });
+    const { unmount } = renderContact();
+    expect(prepareLeadClient).not.toHaveBeenCalled();
+    fireEvent.focus(screen.getByLabelText("Your name"));
+    fireEvent.focus(screen.getByLabelText("Email address"));
+    await waitFor(() => expect(prepareLeadClient).toHaveBeenCalledTimes(1));
+    expect(screen.queryByRole("alert")).toBeNull();
+    fireEvent.submit(fillForm());
+    await screen.findByRole("status");
+    fireEvent.click(screen.getByRole("button", { name: "Send another" }));
+    await act(async () => fireEvent.focus(screen.getByLabelText("Your name")));
+    expect(prepareLeadClient).toHaveBeenCalledTimes(1);
+    unmount();
+    renderContact();
+    fireEvent.focus(screen.getByLabelText("Your name"));
+    await waitFor(() => expect(prepareLeadClient).toHaveBeenCalledTimes(2));
+  });
+
+  test("the reCAPTCHA notice has the policy text and safe external links", () => {
+    renderContact();
+    const form = screen.getByRole("form", { name: PAGE_COPY.contact.heading });
+    const notice = form.querySelector(".contact-legal");
+    expect(notice.tagName).toBe("P");
+    expect(form.lastElementChild).toBe(notice);
+    expect(notice.textContent).toBe(
+      "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply."
+    );
+    for (const [name, href] of [
+      ["Privacy Policy", "https://policies.google.com/privacy"],
+      ["Terms of Service", "https://policies.google.com/terms"],
+    ]) {
+      const link = within(notice).getByRole("link", { name });
+      expect(link.getAttribute("href")).toBe(href);
+      expect(link.getAttribute("target")).toBe("_blank");
+      expect(link.getAttribute("rel")).toBe("noopener noreferrer");
+    }
   });
 });
 

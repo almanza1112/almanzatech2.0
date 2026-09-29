@@ -1,3 +1,7 @@
+## Contact form backend
+
+The contact form uses Firebase `submitLead` to save leads and email notifications. Follow the [setup and reuse guide](functions/README.md), including its deployment order, before publishing the site.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

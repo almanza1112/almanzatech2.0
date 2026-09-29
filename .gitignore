@@ -24,3 +24,10 @@ yarn-error.log*
 
 # local planning docs (blueprint/build workflow)
 PLAN.md
+
+# Firebase
+functions/node_modules/
+firebase-debug.log*
+firestore-debug.log*
+.firebase/
+functions/.secret.local

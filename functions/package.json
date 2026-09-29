@@ -1,0 +1,20 @@
+{
+  "name": "almanzatech-functions",
+  "private": true,
+  "description": "Cloud Functions for almanzatech.com: the contact form backend.",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "serve": "firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-admin": "14.5.0",
+    "firebase-functions": "7.4.0",
+    "nodemailer": "10.0.12"
+  }
+}
