@@ -10,8 +10,8 @@ export const firebaseConfig = {
   measurementId: "G-Z2E4NLHKNW",
 };
 
-// Public reCAPTCHA Enterprise site key from Google Cloud; fill in during setup, not a secret.
-export const RECAPTCHA_SITE_KEY = "";
+// Public reCAPTCHA Enterprise site key ("almanzatech.com App Check" in Google Cloud); not a secret.
+export const RECAPTCHA_SITE_KEY = "6LclpdUtAAAAAFfc81B2gMjiOZRKM05027nVsLJH";
 export const FUNCTIONS_REGION = "us-east1";
 
 let app;

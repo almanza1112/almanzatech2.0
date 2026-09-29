@@ -3,8 +3,8 @@ const SITES = {
   almanzatech: {
     name: "AlmanzaTech",
     origins: ["https://almanzatech.com", "https://www.almanzatech.com"],
-    notifyTo: "info@almanzatech.com",
-    from: "info@almanzatech.com",
+    notifyTo: "bryant@almanzatech.com",
+    from: "bryant@almanzatech.com",
     needs: {
       website: "Website",
       app: "App",

@@ -76,8 +76,8 @@ test("saves the exact normalized document, sends the notification, and marks it 
     notification: { status: "pending" },
   }]);
   assert.deepEqual(calls.mail, [{
-    from: { name: "AlmanzaTech website", address: "info@almanzatech.com" },
-    to: "info@almanzatech.com",
+    from: { name: "AlmanzaTech website", address: "bryant@almanzatech.com" },
+    to: "bryant@almanzatech.com",
     replyTo: { name: "Ada Example", address: "Ada@Example.com" },
     subject: "New inquiry from Ada Example — Website",
     text: "Name: Ada Example\nEmail: Ada@Example.com\nNeed: Website\nSite: almanzatech\n\nPlease help with my website.\n\nLead ID: lead-123",

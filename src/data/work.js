@@ -417,7 +417,7 @@ export const PAGE_COPY = {
       reset: "Send another",
     },
     error:
-      "That didn't go through. Please try again, or email info@almanzatech.com.",
+      "That didn't go through. Please try again, or email bryant@almanzatech.com.",
     recaptcha: {
       before: "This site is protected by reCAPTCHA and the Google ",
       privacy: "Privacy Policy",

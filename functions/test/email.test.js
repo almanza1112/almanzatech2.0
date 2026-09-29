@@ -14,8 +14,8 @@ const lead = {
 
 test("builds the exact plain-text message, addresses, subject and lead id", () => {
   assert.deepEqual(buildNotification(lead, "lead-123"), {
-    from: { name: "AlmanzaTech website", address: "info@almanzatech.com" },
-    to: "info@almanzatech.com",
+    from: { name: "AlmanzaTech website", address: "bryant@almanzatech.com" },
+    to: "bryant@almanzatech.com",
     replyTo: { name: "Ada Example", address: "Ada@Example.com" },
     subject: "New inquiry from Ada Example — IT support",
     text: "Name: Ada Example\nEmail: Ada@Example.com\nNeed: IT support\nSite: almanzatech\n\nPlease help with our computers.\nWe have five.\n\nLead ID: lead-123",

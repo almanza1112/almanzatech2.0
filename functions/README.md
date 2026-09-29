@@ -2,7 +2,7 @@
 
 **Deploy order:** fill in the reCAPTCHA site key and deploy the function before merging the site to `master`. A push to `master` publishes the site automatically. Without the key and backend setup, the live form shows its error message.
 
-The callable function `submitLead` runs in `us-east1` in the `almanzatech` Firebase project. It validates a message, saves it in Firestore's `leads` collection, then emails a notification from and to info@almanzatech.com. Replying to that email addresses the person who submitted the form. The site's id is `almanzatech`.
+The callable function `submitLead` runs in `us-east1` in the `almanzatech` Firebase project. It validates a message, saves it in Firestore's `leads` collection, then emails a notification from and to bryant@almanzatech.com. Replying to that email addresses the person who submitted the form. The site's id is `almanzatech`.
 
 ## Setup
 
@@ -31,16 +31,16 @@ Use Node.js 22, Yarn, the [Firebase CLI](https://firebase.google.com/docs/cli), 
 
    App Check is enforced in code with `enforceAppCheck: true` from the first deploy. `consumeAppCheckToken: true` enables replay protection. The console's App Check **Enforce** toggles for Firestore and Storage do not control this function and are not needed for this form: Firestore rules deny all client access. See [function enforcement and replay protection](https://firebase.google.com/docs/app-check/cloud-functions).
 
-6. Create the info@almanzatech.com mailbox in Google Workspace. Sign in to that account, turn on **2-Step Verification**, and create an [app password](https://support.google.com/accounts/answer/185833). If app passwords are unavailable, ask the Workspace administrator to allow them. Store the login and app password through the prompts:
+6. Sign in to bryant@almanzatech.com (Google Workspace), turn on **2-Step Verification**, and create an [app password](https://support.google.com/accounts/answer/185833). If app passwords are unavailable, ask the Workspace administrator to allow them. Store the login and app password through the prompts:
 
    ```sh
    firebase functions:secrets:set SMTP_USER --project almanzatech
    firebase functions:secrets:set SMTP_PASS --project almanzatech
    ```
 
-   For `SMTP_USER`, enter info@almanzatech.com. For `SMTP_PASS`, enter the app password, not the normal account password. If info@ is an alias, use the real account as `SMTP_USER`, create the app password for that account, and add info@ in Gmail → **Settings** → **Accounts** → **Send mail as**. Otherwise Gmail can rewrite the From address.
+   For `SMTP_USER`, enter bryant@almanzatech.com. For `SMTP_PASS`, enter the app password, not the normal account password. To send from a different address later, change `from` in `sites.js`. If that address is an alias rather than the `SMTP_USER` account, add it in Gmail → **Settings** → **Accounts** → **Send mail as**, or Gmail rewrites the From line.
 
-   `SMTP_HOST` defaults to `smtp.gmail.com`; `SMTP_PORT` defaults to `465`. To override them, put only those settings in `functions/.env` and redeploy. That file is not gitignored; keep SMTP credentials in the two secrets above. See [environment configuration](https://firebase.google.com/docs/functions/config-env).
+   `SMTP_HOST` (`smtp.gmail.com`) and `SMTP_PORT` (`465`) are set in `functions/.env`, which deploys need because they can't prompt for values. To change them, edit that file and redeploy. It is committed, so keep SMTP credentials in the two secrets above. See [environment configuration](https://firebase.google.com/docs/functions/config-env).
 
 7. Install the pinned function dependencies, run their tests, and deploy the function and Firestore rules:
 
@@ -52,6 +52,12 @@ Use Node.js 22, Yarn, the [Firebase CLI](https://firebase.google.com/docs/cli), 
 
    Confirm that `submitLead` appears in `us-east1` in the Firebase console. If you change either SMTP secret later, repeat the deploy command so the function uses the new value.
 
+   If the form fails and the function's logs show `403 ... The request was not authenticated`, the function isn't open to public calls. Firebase sets that when it first creates the function, but a first deploy that fails partway can skip it. Browsers must be able to call the function; App Check is the gate. Fix it once with:
+
+   ```sh
+   gcloud run services add-iam-policy-binding submitlead --region=us-east1 --member=allUsers --role=roles/run.invoker --project=almanzatech
+   ```
+
 8. Test locally. In Firebase console → **App Check** → **Apps** → the web app's menu → **Manage debug tokens**, create a token. In the root `.env.development.local`, add `REACT_APP_APPCHECK_DEBUG_TOKEN=` and paste the token after `=`. This file is gitignored; keep the token private. The public `RECAPTCHA_SITE_KEY` must still be filled in. See [debug tokens](https://firebase.google.com/docs/app-check/web/debug-provider).
 
    ```sh
@@ -60,7 +66,7 @@ Use Node.js 22, Yarn, the [Firebase CLI](https://firebase.google.com/docs/cli), 
 
    Open http://localhost:3000 and submit the form. Leave `REACT_APP_FUNCTIONS_EMULATOR` unset to call the deployed function; this saves a real lead and sends real email. If you already run a Functions emulator, set `REACT_APP_FUNCTIONS_EMULATOR` to its `host:port`, such as `127.0.0.1:5001`, in the same file. That setting changes only the function address; the emulator's Firestore and SMTP setup determines where it saves data and sends email. Both environment variables are used only outside production. Restart `yarn start` after changing them.
 
-9. After local testing passes, publish the site with the filled-in key through the existing `master` workflow. Send one test message through the live form. Confirm the notification reaches info@almanzatech.com and that Firebase console → **Firestore Database** → **Data** → **leads** contains the matching document with `site: "almanzatech"` and `notification.status: "sent"`.
+9. After local testing passes, publish the site with the filled-in key through the existing `master` workflow. Send one test message through the live form. Confirm the notification reaches bryant@almanzatech.com and that Firebase console → **Firestore Database** → **Data** → **leads** contains the matching document with `site: "almanzatech"` and `notification.status: "sent"`.
 
 ## Reading leads
 
