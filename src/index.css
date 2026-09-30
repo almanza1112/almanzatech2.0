@@ -459,12 +459,6 @@
         font-size: 16px;
     }
 
-    .hero-call .text-link {
-        padding-block: 12px;
-        font-weight: 600;
-        text-decoration-color: var(--cyan);
-    }
-
     .hero-footer {
         position: relative;
     }

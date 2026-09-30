@@ -56,6 +56,13 @@ test("heading and proof preserve the exact supplied copy and desktop line breaks
   }).getAttribute("href")).toBe(PAGE_COPY.hero.cta.href);
 });
 
+test("hero contains no phone link or call label", () => {
+  render(<Hero />);
+  const hero = screen.getByRole("region", { name: PAGE_COPY.hero.heading });
+  expect(hero.querySelector('a[href^="tel:"]')).toBeNull();
+  expect(hero.textContent).not.toMatch(/or call/i);
+});
+
 test("wall has five decorative columns with two identical five-screen sets each", () => {
   const { container } = render(<Hero />);
   const wall = container.querySelector(".hero-wall");

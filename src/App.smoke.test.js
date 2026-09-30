@@ -1018,13 +1018,9 @@ test("header, hero and call bar send the specified analytics events", () => {
     const label = location === "hero" ? "Tell us about your project" : "Start a project";
     fireEvent.click(within(scope).getByRole("link", { name: label }));
     expected.push(["cta_click", { label, location }]);
-    fireEvent.click(
-      within(scope).getByRole("link", {
-        name: location === "mobile_bar" ? "Call us" : "(201) 467-1007",
-      })
-    );
-    expected.push(["contact_click", { channel: "phone", location }]);
   }
+  fireEvent.click(within(bar).getByRole("link", { name: "Call us" }));
+  expected.push(["contact_click", { channel: "phone", location: "mobile_bar" }]);
 
   expect(track.mock.calls).toEqual(expected);
 });

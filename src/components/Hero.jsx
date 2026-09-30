@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { SITE } from "../data/site";
 import { CASE_PAGE_COPY, CASE_STUDIES, PAGE_COPY, WEBSITES } from "../data/work";
 import { track } from "../lib/analytics";
 import { supportsObserver, usePausedMotion, useReducedMotion } from "../lib/motion";
@@ -121,18 +120,6 @@ const Hero = () => {
             {PAGE_COPY.hero.cta.label}
             <span className="arr" aria-hidden="true">→</span>
           </a>
-          <span className="hero-call">
-            {PAGE_COPY.hero.callLabel}{" "}
-            <a
-              className="text-link"
-              href={SITE.phoneHref}
-              onClick={() =>
-                track("contact_click", { channel: "phone", location: "hero" })
-              }
-            >
-              {SITE.phoneDisplay}
-            </a>
-          </span>
         </div>
       </div>
 

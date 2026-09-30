@@ -638,7 +638,6 @@ export const PAGE_COPY = {
     heading: "Custom websites, apps and IT support for small businesses and founders.",
     proof: "Built in-house. Live in the App Store.",
     cta: { label: "Tell us about your project", href: "/#contact" },
-    callLabel: "or call",
   },
   work: {
     heading: "Selected work",
