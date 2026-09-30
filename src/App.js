@@ -10,6 +10,7 @@ import ContactUs from "./components/ContactUs";
 import Footer from "./components/Footer";
 import CallBar from "./components/CallBar";
 import CaseStudyPage from "./components/CaseStudyPage";
+import PrivacyPage from "./components/PrivacyPage";
 import { PAGE_COPY } from "./data/work";
 import { useRoute } from "./lib/router";
 import useSectionViews from "./hooks/useSectionViews";
@@ -43,7 +44,8 @@ function App() {
       <Navbar isHome={route.page === "home"} />
 
       <main className={route.page === "case" ? "case-main" : undefined}>
-        {route.page === "case" ? <CaseStudyPage slug={route.slug} /> : <HomePage />}
+        {route.page === "case" ? <CaseStudyPage slug={route.slug} /> :
+          route.page === "privacy" ? <PrivacyPage /> : <HomePage />}
       </main>
 
       <Footer />

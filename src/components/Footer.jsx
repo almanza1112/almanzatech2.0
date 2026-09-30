@@ -3,13 +3,13 @@ import Logo from "../assets/almanzatech.png";
 import { SITE } from "../data/site";
 import { FOOTER_NAV_LINKS, PAGE_COPY } from "../data/work";
 
-const [taglineStart, taglineSince] = PAGE_COPY.footer.tagline.split(/(?=since \d{4}\.)/);
+const [taglineStart, taglineAccent] = PAGE_COPY.footer.tagline.split(/(?=the systems behind them\.)/);
 
 const Footer = () => (
   <footer className="foot-section">
     <div className="wrap">
       <p className="foot-statement" aria-hidden="true">
-        {taglineStart}<span className="foot-since">{taglineSince}</span>
+        {taglineStart}<span className="foot-accent">{taglineAccent}</span>
       </p>
       <div className="foot-main">
         <a className="foot-logo" href="/#top">
@@ -32,7 +32,12 @@ const Footer = () => (
       </div>
 
       <div className="foot-bottom">
-        <p>{PAGE_COPY.footer.copyright}</p>
+        <p>
+          <span>{PAGE_COPY.footer.copyright}</span>{" · "}
+          <a className="privacy-footer-link" href={PAGE_COPY.footer.privacy.href}>
+            {PAGE_COPY.footer.privacy.label}
+          </a>
+        </p>
       </div>
     </div>
   </footer>

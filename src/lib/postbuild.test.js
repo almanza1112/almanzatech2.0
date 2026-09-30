@@ -29,7 +29,7 @@ test.each([false, true])("generates all metadata and preserves JSON-LD (minified
     'meta[name="twitter:description"]',
   ]) {
     expect(baseDocument.querySelector(selector).getAttribute("content")).toBe(
-      "Custom websites, mobile apps and IT support for small businesses and founders. Designed and built in-house. Northern New Jersey, since 2019."
+      "Custom websites, mobile apps and IT support for small businesses and founders. Designed and built in-house. Northern New Jersey."
     );
   }
   fs.writeFileSync(path.join(directory, "index.html"), base);
@@ -58,6 +58,26 @@ test.each([false, true])("generates all metadata and preserves JSON-LD (minified
         .toBe(baseDocument.querySelector('script[type="application/ld+json"]').textContent);
       expect(page.body.innerHTML).toBe(baseDocument.body.innerHTML);
     }
+    const privacyHtml = fs.readFileSync(path.join(directory, "privacy", "index.html"), "utf8");
+    const privacy = parse(privacyHtml);
+    const privacyTitle = "Privacy policy · AlmanzaTech";
+    const privacyDescription = "How AlmanzaTech collects and uses information on almanzatech.com.";
+    const privacyUrl = "https://almanzatech.com/privacy/";
+    expect(privacy.title).toBe(privacyTitle);
+    expect(privacy.querySelector('link[rel="canonical"]').getAttribute("href")).toBe(privacyUrl);
+    for (const [selector, content] of [
+      ['meta[name="description"]', privacyDescription],
+      ['meta[property="og:url"]', privacyUrl],
+      ['meta[property="og:title"]', privacyTitle],
+      ['meta[property="og:description"]', privacyDescription],
+      ['meta[name="twitter:title"]', privacyTitle],
+      ['meta[name="twitter:description"]', privacyDescription],
+    ]) {
+      expect(privacy.querySelector(selector).getAttribute("content")).toBe(content);
+    }
+    expect(privacy.querySelector('script[type="application/ld+json"]').textContent)
+      .toBe(baseDocument.querySelector('script[type="application/ld+json"]').textContent);
+    expect(privacy.body.innerHTML).toBe(baseDocument.body.innerHTML);
     expect(fs.readFileSync(path.join(directory, "index.html"), "utf8")).toBe(base);
     const sitemap = new DOMParser().parseFromString(
       fs.readFileSync(path.join(directory, "sitemap.xml"), "utf8"), "application/xml"
@@ -66,6 +86,7 @@ test.each([false, true])("generates all metadata and preserves JSON-LD (minified
     expect(Array.from(sitemap.querySelectorAll("loc"), (loc) => loc.textContent)).toEqual([
       "https://almanzatech.com/",
       ...CASE_STUDIES.map(({ slug }) => `https://almanzatech.com/work/${slug}/`),
+      "https://almanzatech.com/privacy/",
     ]);
     generateSite(directory);
     expect(fs.readFileSync(path.join(directory, "robots.txt"), "utf8"))

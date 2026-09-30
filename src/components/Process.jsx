@@ -17,7 +17,7 @@ const Process = () => {
         <img
           src={ownerCall800}
           srcSet={`${ownerCall800} 800w, ${ownerCall1600} 1600w`}
-          sizes="(min-width: 1000px) 50vw, 100vw"
+          sizes="100vw"
           alt=""
           loading="lazy"
           decoding="async"

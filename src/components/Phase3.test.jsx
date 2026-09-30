@@ -76,7 +76,7 @@ test("process keeps four ordered steps and verbatim copy beside a lazy decorativ
   expect(photo.getAttribute("loading")).toBe("lazy");
   expect(photo.getAttribute("src")).toBe("owner-call-800.webp");
   expect(photo.getAttribute("srcset")).toBe("owner-call-800.webp 800w, owner-call-1600.webp 1600w");
-  expect(photo.getAttribute("sizes")).toBe("(min-width: 1000px) 50vw, 100vw");
+  expect(photo.getAttribute("sizes")).toBe("100vw");
 });
 
 test.each([false, true])("About keeps exact lead, reviews, attributions and project links (reduced: %s)", (reduced) => {

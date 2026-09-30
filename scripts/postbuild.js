@@ -22,10 +22,23 @@ const generateSite = (buildDir = path.join(__dirname, "..", "build")) => {
   const base = fs.readFileSync(path.join(buildDir, "index.html"), "utf8");
   const urls = [`${ORIGIN}/`];
 
-  for (const project of cases) {
-    const title = escapeHtml(`${project.name} case study · AlmanzaTech`);
-    const description = escapeHtml(project.outcome);
-    const url = `${ORIGIN}/work/${project.slug}/`;
+  const pages = [
+    ...cases.map((project) => ({
+      pathname: `/work/${project.slug}/`,
+      title: `${project.name} case study · AlmanzaTech`,
+      description: project.outcome,
+    })),
+    {
+      pathname: "/privacy/",
+      title: "Privacy policy · AlmanzaTech",
+      description: "How AlmanzaTech collects and uses information on almanzatech.com.",
+    },
+  ];
+
+  for (const page of pages) {
+    const title = escapeHtml(page.title);
+    const description = escapeHtml(page.description);
+    const url = `${ORIGIN}${page.pathname}`;
     let html = replaceTag(base, /<title>[^<]*<\/title>/i, `<title>${title}</title>`);
     html = replaceTag(html, tagPattern("link", "rel", "canonical"),
       `<link rel="canonical" href="${url}" />`);
@@ -40,7 +53,7 @@ const generateSite = (buildDir = path.join(__dirname, "..", "build")) => {
       html = replaceTag(html, tagPattern("meta", attribute, name),
         `<meta ${attribute}="${name}" content="${content}" />`);
     }
-    const directory = path.join(buildDir, "work", project.slug);
+    const directory = path.join(buildDir, page.pathname);
     fs.mkdirSync(directory, { recursive: true });
     fs.writeFileSync(path.join(directory, "index.html"), html);
     urls.push(url);
@@ -64,7 +77,7 @@ const generateSite = (buildDir = path.join(__dirname, "..", "build")) => {
 
 if (require.main === module) {
   generateSite();
-  console.log(`Generated ${cases.length} case pages, sitemap.xml (6 URLs), and robots.txt Sitemap line.`);
+  console.log(`Generated ${cases.length} case pages and 1 privacy page, sitemap.xml (${cases.length + 2} URLs), and robots.txt Sitemap line.`);
 }
 
 module.exports = { generateSite };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CASE_STUDIES } from "../data/work";
 
 export const matchRoute = (pathname) => {
+  if (pathname === "/privacy" || pathname === "/privacy/") return { page: "privacy" };
   const match = /^\/work\/([^/]+)\/?$/.exec(pathname);
   return match && CASE_STUDIES.some(({ slug }) => slug === match[1])
     ? { page: "case", slug: match[1] }

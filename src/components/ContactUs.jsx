@@ -213,15 +213,12 @@ const ContactUs = () => {
                 ) : null}
 
                 <p className="contact-legal">
-                  {copy.recaptcha.before}
-                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
-                    {copy.recaptcha.privacy}
+                  {copy.recaptcha.text}
+                  {copy.recaptcha.privacyBefore}
+                  <a href="/privacy/">
+                    {copy.recaptcha.privacyLink}
                   </a>
-                  {copy.recaptcha.and}
-                  <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">
-                    {copy.recaptcha.terms}
-                  </a>
-                  {copy.recaptcha.after}
+                  {copy.recaptcha.privacyAfter}
                 </p>
               </form>
             )}

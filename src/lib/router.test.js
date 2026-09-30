@@ -17,8 +17,12 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test.each(["/", "/unknown", "/work/unknown", "/work/ambe/extra", "/work/"])(
+test.each(["/", "/unknown", "/work/unknown", "/work/ambe/extra", "/work/", "/privacy/extra", "/privacy-policy"])(
   "%s falls back to home", (path) => expect(matchRoute(path)).toEqual({ page: "home" })
+);
+
+test.each(["/privacy", "/privacy/"])(
+  "%s maps to the privacy page", (path) => expect(matchRoute(path)).toEqual({ page: "privacy" })
 );
 
 test.each(["nextplay", "ambe", "curzonrelo", "persyst", "chinesepod"])(

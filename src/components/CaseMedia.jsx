@@ -66,7 +66,7 @@ const Carousel = ({ slides, label, eager, kind }) => {
   };
 
   return (
-    <div className={`carousel carousel--${variant} carousel--${kind}`} role="region" aria-roledescription="carousel" aria-label={label}>
+    <div className={`carousel ${variant === "wide" ? "carousel--wide" : "carousel--tall"} ${kind === "app" ? "carousel--app" : "carousel--website"}`} role="region" aria-roledescription="carousel" aria-label={label}>
       <ul
         className="carousel-track"
         ref={trackRef}

@@ -144,8 +144,12 @@ const Work = () => {
         </div>
 
         <ul className="work-grid">
-          {CASE_STUDIES.map((project) => (
-            <li className={`work-item work-item--${project.slug}`} key={project.slug} style={{ "--c": `var(--c-${project.slug})` }}>
+          {CASE_STUDIES.map((project, index) => (
+            <li
+              className={`work-item ${index < 2 ? "work-item--featured" : "work-item--secondary"}${project.slug === "persyst" ? " work-item--persyst" : ""}`}
+              key={project.slug}
+              style={{ "--c": `var(--c-${project.slug})` }}
+            >
               <CaseCard project={project} paused={paused} reduced={reduced} illuminate={illuminate} />
             </li>
           ))}

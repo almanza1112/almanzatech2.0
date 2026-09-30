@@ -661,7 +661,7 @@ export const PAGE_COPY = {
   },
   about: {
     heading: "About us",
-    lead: "AlmanzaTech has built websites, apps and the systems behind them in Northern New Jersey since 2019.",
+    lead: "AlmanzaTech builds websites, apps and the systems behind them in Northern New Jersey.",
     body: "When you get in touch, you talk directly with the person who builds it. We treat you like family here, and that starts with listening to what you want to build and what you can spend.",
     reviewsHeading: "What clients say",
   },
@@ -703,16 +703,16 @@ export const PAGE_COPY = {
     error:
       "That didn't go through. Please try again, or email bryant@almanzatech.com.",
     recaptcha: {
-      before: "This site is protected by reCAPTCHA and the Google ",
-      privacy: "Privacy Policy",
-      and: " and ",
-      terms: "Terms of Service",
-      after: " apply.",
+      text: "This site is protected by reCAPTCHA.",
+      privacyBefore: " Read our ",
+      privacyLink: "privacy policy",
+      privacyAfter: ".",
     },
   },
   footer: {
-    tagline: "Websites, apps and the systems behind them, since 2019.",
+    tagline: "Websites, apps and the systems behind them.",
     copyright: `© ${new Date().getFullYear()} ${SITE.name}`,
+    privacy: { label: "Privacy policy", href: "/privacy/" },
   },
   callbar: { label: "Call us", href: SITE.phoneHref },
 };

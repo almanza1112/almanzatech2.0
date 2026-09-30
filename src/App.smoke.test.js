@@ -139,11 +139,15 @@ test("renders the whole page without crashing", () => {
   const statement = footer.querySelector(".foot-statement");
   expect(statement.getAttribute("aria-hidden")).toBe("true");
   expect(statement.textContent).toBe(PAGE_COPY.footer.tagline);
-  expect(statement.querySelector(".foot-since").textContent).toBe("since 2019.");
+  expect(statement.querySelector(".foot-accent").textContent).toBe("the systems behind them.");
   expect(footer.classList.contains("wrap")).toBe(false);
   expect(footer.firstElementChild.classList.contains("wrap")).toBe(true);
   expect(within(footer).getByText(`© ${new Date().getFullYear()} AlmanzaTech LLC`))
     .toBeTruthy();
+  expect(within(footer).getByRole("link", { name: "Privacy policy" }).getAttribute("href"))
+    .toBe("/privacy/");
+  expect(footer.querySelector(".foot-bottom p").textContent)
+    .toBe(`${PAGE_COPY.footer.copyright} · Privacy policy`);
   expect(within(footer).getByRole("link", { name: SITE.shortName })
     .getAttribute("href")).toBe("/#top");
   const footerNav = within(footer).getByRole("navigation", { name: "Footer" });
@@ -189,6 +193,29 @@ test("renders the whole page without crashing", () => {
   expect(screen.getAllByRole("link", { name: /201/ }).length).toBeGreaterThan(0);
   expect(screen.getByRole("button", { name: /send message/i })).toBeTruthy();
   expect(screen.getByText("Menu", { selector: "summary" })).toBeTruthy();
+});
+
+test.each(["/privacy", "/privacy/"])("deep-links to %s with a solid header", (pathname) => {
+  window.history.replaceState(null, "", pathname);
+  render(<App />);
+  expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Privacy policy");
+  expect(document.title).toBe("Privacy policy · AlmanzaTech");
+  expect(document.querySelector(".hdr-shell").classList.contains("hdr-shell--solid")).toBe(true);
+  expect(document.getElementById("contact")).toBeNull();
+});
+
+test.each(["footer", ".contact-legal"])("navigates from %s to privacy and back home", (selector) => {
+  render(<App />);
+  const link = within(document.querySelector(selector)).getByRole("link", { name: /privacy policy/i });
+  fireEvent.click(link);
+  expect(window.location.pathname).toBe("/privacy/");
+  expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Privacy policy");
+  expect(document.title).toBe("Privacy policy · AlmanzaTech");
+  expect(document.querySelector(".hdr-shell").classList.contains("hdr-shell--solid")).toBe(true);
+  fireEvent.click(screen.getByRole("link", { name: "← Home" }));
+  expect(window.location.pathname).toBe("/");
+  expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(PAGE_COPY.hero.heading);
+  expect(document.title).toBe(PAGE_COPY.homeTitle);
 });
 
 test.each(CASE_STUDIES)("deep-links to $slug with the supplied copy and next project", (project) => {
@@ -542,24 +569,20 @@ describe("contact form", () => {
     await waitFor(() => expect(prepareLeadClient).toHaveBeenCalledTimes(2));
   });
 
-  test("the reCAPTCHA notice has the policy text and safe external links", () => {
+  test("the reCAPTCHA notice has the exact legal line and local privacy link", () => {
     renderContact();
     const form = screen.getByRole("form", { name: PAGE_COPY.contact.heading });
     const notice = form.querySelector(".contact-legal");
     expect(notice.tagName).toBe("P");
     expect(form.lastElementChild).toBe(notice);
     expect(notice.textContent).toBe(
-      "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply."
+      "This site is protected by reCAPTCHA. Read our privacy policy."
     );
-    for (const [name, href] of [
-      ["Privacy Policy", "https://policies.google.com/privacy"],
-      ["Terms of Service", "https://policies.google.com/terms"],
-    ]) {
-      const link = within(notice).getByRole("link", { name });
-      expect(link.getAttribute("href")).toBe(href);
-      expect(link.getAttribute("target")).toBe("_blank");
-      expect(link.getAttribute("rel")).toBe("noopener noreferrer");
-    }
+    const link = within(notice).getByRole("link", { name: "privacy policy" });
+    expect(link.getAttribute("href")).toBe("/privacy/");
+    expect(link.hasAttribute("target")).toBe(false);
+    expect(within(notice).getAllByRole("link")).toHaveLength(1);
+    expect(document.querySelector('a[href*="policies.google.com"]')).toBeNull();
   });
 });
 
