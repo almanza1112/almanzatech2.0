@@ -3,9 +3,17 @@ import Logo from "../assets/almanzatech.png";
 import { SITE } from "../data/site";
 import { DESKTOP_NAV_LINKS, NAV_LINKS, PAGE_COPY } from "../data/work";
 
-const Navbar = () => {
+const Navbar = ({ isHome = true }) => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 40);
   const summaryRef = useRef(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -21,7 +29,7 @@ const Navbar = () => {
   }, [open]);
 
   return (
-    <header className="hdr-shell">
+    <header className={`hdr-shell${!isHome || scrolled ? " hdr-shell--solid" : ""}`}>
       <a className="skip-link" href={PAGE_COPY.header.skipLink.href}>
         {PAGE_COPY.header.skipLink.label}
       </a>

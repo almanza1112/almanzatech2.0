@@ -24,6 +24,7 @@ import {
   TESTIMONIALS,
   SERVICES,
   PAGE_COPY,
+  CASE_PAGE_COPY,
 } from "./data/work";
 import { track } from "./lib/analytics";
 import { navigate } from "./lib/router";
@@ -51,6 +52,7 @@ beforeEach(() => {
 
 afterEach(() => {
   window.history.replaceState(null, "", "/");
+  window.scrollY = 0;
   delete Element.prototype.scrollIntoView;
   mockObserverSupported = false;
   jest.restoreAllMocks();
@@ -60,18 +62,24 @@ afterEach(() => {
 test("renders the whole page without crashing", () => {
   render(<App />);
 
-  expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(
-    "Custom websites, apps and IT support for small businesses and founders."
-  );
+  expect(screen.getByRole("heading", { level: 1, name: PAGE_COPY.hero.heading }).textContent)
+    .toBe(PAGE_COPY.hero.heading);
   expect(document.title).toBe(
     "AlmanzaTech — Custom Websites, Apps & IT Support · Northern New Jersey"
   );
   expect(document.querySelector(".hero-strip")).toBeNull();
   const servicesSection = document.getElementById("services");
-  // The shared header logo is outside the homepage content.
+  const wall = document.querySelector('.hero-wall[aria-hidden="true"]');
+  expect(wall.querySelectorAll("img")).toHaveLength(50);
   screen.getByRole("main").querySelectorAll("img").forEach((image) => {
-    expect(servicesSection.compareDocumentPosition(image) & Node.DOCUMENT_POSITION_FOLLOWING)
-      .toBeTruthy();
+    if (wall.contains(image)) {
+      expect(image.getAttribute("alt")).toBe("");
+      return;
+    }
+    expect([servicesSection, document.getElementById("work"), document.getElementById("process")]
+      .some((section) => section.contains(image))).toBe(true);
+    expect(image.getAttribute("alt")).toBe("");
+    expect(image.getAttribute("loading")).toBe("lazy");
   });
   expect(document.querySelectorAll("h2")).toHaveLength(6);
   for (const id of ["services", "work", "process", "about", "faq", "contact"]) {
@@ -125,7 +133,15 @@ test("renders the whole page without crashing", () => {
   const footer = screen.getByRole("contentinfo");
   expect(footer.textContent).not.toContain("New Jersey");
   expect(footer.querySelector('a[href^="tel:"], a[href^="mailto:"]')).toBeNull();
-  expect(within(footer).getByText(PAGE_COPY.footer.tagline)).toBeTruthy();
+  const tagline = within(footer).getByText(PAGE_COPY.footer.tagline);
+  expect(tagline.classList.contains("sr-only")).toBe(true);
+  expect(tagline.closest('[aria-hidden="true"]')).toBeNull();
+  const statement = footer.querySelector(".foot-statement");
+  expect(statement.getAttribute("aria-hidden")).toBe("true");
+  expect(statement.textContent).toBe(PAGE_COPY.footer.tagline);
+  expect(statement.querySelector(".foot-since").textContent).toBe("since 2019.");
+  expect(footer.classList.contains("wrap")).toBe(false);
+  expect(footer.firstElementChild.classList.contains("wrap")).toBe(true);
   expect(within(footer).getByText(`© ${new Date().getFullYear()} AlmanzaTech LLC`))
     .toBeTruthy();
   expect(within(footer).getByRole("link", { name: SITE.shortName })
@@ -191,6 +207,8 @@ test.each(CASE_STUDIES)("deep-links to $slug with the supplied copy and next pro
   expect(within(article).getByText(project.outcome, { exact: true })).toBeTruthy();
   for (const paragraph of project.paragraphs) expect(article.textContent).toContain(paragraph);
   expect(document.querySelector(".hero")).toBeNull();
+  expect(document.querySelector(".hdr-shell").classList.contains("hdr-shell--solid")).toBe(true);
+  expect(screen.getByRole("main").classList.contains("case-main")).toBe(true);
   expect(document.getElementById("contact")).toBeNull();
   expect(document.querySelector('a[href^="#"]')).toBeNull();
   expect(screen.getByRole("link", { name: "← All work" }).getAttribute("href")).toBe("/#work");
@@ -213,6 +231,10 @@ test.each(CASE_STUDIES)("deep-links to $slug with the supplied copy and next pro
   expect(nextLink.textContent).toBe(`${next.name} →`);
   expect(within(nextLink).getByText("→", { selector: "span" }).getAttribute("aria-hidden"))
     .toBe("true");
+  const cta = screen.getByRole("region", { name: CASE_PAGE_COPY.heading });
+  const contactLink = within(cta).getByRole("link", { name: CASE_PAGE_COPY.cta.label });
+  expect(contactLink.classList.contains("btn--ink")).toBe(true);
+  expect(contactLink.getAttribute("href")).toBe(CASE_PAGE_COPY.cta.href);
 });
 
 test("NextPlay keeps the summary, build note, context and stack", () => {
@@ -541,15 +563,22 @@ describe("contact form", () => {
   });
 });
 
-test("services render four rows with comma-separated links only where supplied", () => {
+test("services render four illustrated rows with verbatim copy, list points and captions", () => {
   render(<Services />);
   expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(4);
   expect(screen.getByText(PAGE_COPY.services.intro, { exact: true })).toBeTruthy();
   expect(screen.getByRole("link", { name: "Tell us about your project" })
     .classList.contains("btn")).toBe(true);
 
-  const cards = document.querySelectorAll(".svc-card");
+  const cards = document.querySelectorAll(".svc-row");
   expect(cards).toHaveLength(4);
+  const visuals = [
+    ["ambe-web-1-700.webp"],
+    ["ambe-app-2-600.webp", "nextplay-app-1-600.webp", "curzonrelo-app-4-600.webp"],
+    ["it-desk-800.webp"],
+    ["nextplay-app-2-600.webp", "nextplay-app-5-600.webp"],
+  ];
+  const captions = ["Ambé Wellness", "Ambé · NextPlay · CurzonRelo", undefined, "NextPlay Nutrition"];
   SERVICES.forEach((service, index) => {
     const card = cards[index];
     expect(within(card).getByRole("heading", { level: 3 }).textContent).toBe(service.name);
@@ -557,10 +586,18 @@ test("services render four rows with comma-separated links only where supplied",
     expect(within(card).getAllByRole("listitem").map((item) => item.textContent))
       .toEqual(service.points);
     expect(within(card).queryAllByRole("link")).toHaveLength(0);
+    const figure = card.querySelector("figure");
+    expect([...figure.querySelectorAll("img")].map((img) => img.getAttribute("src")))
+      .toEqual(visuals[index]);
+    expect(figure.querySelector("figcaption")?.textContent).toBe(captions[index]);
+    figure.querySelectorAll("img").forEach((img) => {
+      expect(img.getAttribute("alt")).toBe("");
+      expect(img.getAttribute("loading")).toBe("lazy");
+    });
   });
 });
 
-test("about is a plain heading, two lines of copy and three review cards; services keeps its CTA", () => {
+test("about has a kicker, exact display lead, body and three review cards; services keeps its CTA", () => {
   render(
     <div onClick={(event) => event.preventDefault()}>
       <Services />
@@ -571,7 +608,7 @@ test("about is a plain heading, two lines of copy and three review cards; servic
   expect(within(about).queryByRole("complementary")).toBeNull();
   expect(within(about).getAllByRole("heading").map((h) => h.textContent))
     .toEqual(["About us", "What clients say"]);
-  expect(within(about).getByText(PAGE_COPY.about.lead, { exact: true })).toBeTruthy();
+  expect(about.querySelector(".about-lead").textContent).toBe(PAGE_COPY.about.lead);
   expect(within(about).getByText(PAGE_COPY.about.body, { exact: true })).toBeTruthy();
   expect(about.textContent).not.toMatch(/Nothing outsourced|You own everything|Software studio|Get in touch/);
   expect(about.querySelectorAll(".about-quote")).toHaveLength(3);
@@ -616,27 +653,31 @@ test("work-card links and website links send the specified analytics", () => {
   expect(track.mock.calls).toEqual(expected);
 });
 
-test("work shows six equal cards with tags, one line each and lazy decorative images", () => {
+test("work shows five case cards and a websites strip with tags, copy and lazy shot stacks", () => {
   const { container } = render(<Work />);
   const cards = container.querySelectorAll(".work-grid > li");
   expect(cards).toHaveLength(6);
-  expect(container.querySelectorAll("img")).toHaveLength(6);
+  expect(container.querySelectorAll(".work-shot")).toHaveLength(12);
+  expect(container.querySelectorAll(".work-phone")).toHaveLength(2);
+  expect(container.querySelector("#work.wrap")).toBeNull();
+  expect(container.querySelector("#work > .wrap")).toBeTruthy();
   expect(container.querySelector("blockquote, .work-outro, .work-card--featured")).toBeNull();
   expect(screen.getByText(PAGE_COPY.work.intro, { exact: true })).toBeTruthy();
   CASE_STUDIES.forEach((project, index) => {
     const card = cards[index];
     expect(within(card).getByRole("heading", { level: 3 }).textContent).toBe(project.name);
     expect(within(card).getByText(project.cardText, { exact: true })).toBeTruthy();
-    expect(within(card).getByText(project.tags.join(" · "), { exact: true })).toBeTruthy();
+    expect([...card.querySelectorAll(".work-tags span")].map((tag) => tag.textContent))
+      .toEqual(project.tags);
     for (const paragraph of project.paragraphs) expect(card.textContent).not.toContain(paragraph);
-    const image = card.querySelector("img");
+    expect(card.querySelectorAll(".work-shot")).toHaveLength([3, 3, 1, 3, 1][index]);
+    expect(card.querySelectorAll(".work-shot--active")).toHaveLength(1);
+  });
+  container.querySelectorAll("img").forEach((image) => {
     expect(image.getAttribute("alt")).toBe("");
     expect(image.getAttribute("loading")).toBe("lazy");
-    expect(image.getAttribute("srcset"))
-      .toBe(`${project.img.small} 700w, ${project.img.large} 1400w`);
-    expect(image.getAttribute("sizes")).toBeTruthy();
-    expect(image.getAttribute("width")).toBe(String(project.img.width));
-    expect(image.getAttribute("height")).toBe(String(project.img.height));
+    expect(Number(image.getAttribute("width"))).toBeGreaterThan(0);
+    expect(Number(image.getAttribute("height"))).toBeGreaterThan(0);
   });
   const websites = cards[5];
   expect(websites.id).toBe("websites");
@@ -675,7 +716,7 @@ test("About renders the verbatim reviews with untracked case links", () => {
   }
 });
 
-test("process presents four ordered steps with the verbatim copy", () => {
+test("process presents four ordered steps with the verbatim copy and a decorative photo", () => {
   render(<Process />);
   const section = screen.getByRole("region", { name: "How working with us works" });
   expect(section.id).toBe("process");
@@ -698,7 +739,9 @@ test("process presents four ordered steps with the verbatim copy", () => {
     expect(step.querySelector("p").textContent).toBe(expected[index][1]);
     expect(within(step).getByText(String(index + 1), { exact: true })).toBeTruthy();
   });
-  expect(section.querySelector("img, svg")).toBeNull();
+  expect(section.querySelectorAll("img")).toHaveLength(1);
+  expect(section.querySelector("img").getAttribute("alt")).toBe("");
+  expect(section.querySelector("img").getAttribute("loading")).toBe("lazy");
 });
 
 test("FAQ exposes six verbatim question and answer pairs, with linked project names", () => {
@@ -964,7 +1007,7 @@ test("header, hero and call bar send the specified analytics events", () => {
 });
 
 
-test("hero is only the offer, the proof line and one contact action", () => {
+test("hero keeps the offer, proof and contact action over a decorative screen wall", () => {
   const { container } = render(<Hero />);
   expect(container.textContent).not.toMatch(/New Jersey|Bryant|Monday|Saturday|Since 2019/);
   expect(container.querySelectorAll(".btn")).toHaveLength(1);
@@ -974,7 +1017,28 @@ test("hero is only the offer, the proof line and one contact action", () => {
     .getByRole("link", { name: "Tell us about your project" });
   expect(button.getAttribute("href")).toBe("/#contact");
   expect(button.classList.contains("btn")).toBe(true);
-  expect(container.querySelector("img")).toBeNull();
+  expect(container.querySelector('.hero-wall[aria-hidden="true"]')).toBeTruthy();
+  expect(screen.queryByRole("img")).toBeNull();
+});
+
+test("header becomes solid past 40px and stays solid on a case route", () => {
+  window.scrollY = 0;
+  render(<App />);
+  const header = screen.getByRole("banner");
+  expect(header.classList.contains("hdr-shell--solid")).toBe(false);
+  window.scrollY = 40;
+  fireEvent.scroll(window);
+  expect(header.classList.contains("hdr-shell--solid")).toBe(false);
+  window.scrollY = 41;
+  fireEvent.scroll(window);
+  expect(header.classList.contains("hdr-shell--solid")).toBe(true);
+  window.scrollY = 0;
+  fireEvent.scroll(window);
+  expect(header.classList.contains("hdr-shell--solid")).toBe(false);
+  act(() => navigate("/work/nextplay/"));
+  expect(header.classList.contains("hdr-shell--solid")).toBe(true);
+  act(() => navigate("/"));
+  expect(header.classList.contains("hdr-shell--solid")).toBe(false);
 });
 
 test("Bryant's name appears only inside the verbatim client reviews", () => {

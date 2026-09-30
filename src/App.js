@@ -40,9 +40,9 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      <Navbar isHome={route.page === "home"} />
 
-      <main>
+      <main className={route.page === "case" ? "case-main" : undefined}>
         {route.page === "case" ? <CaseStudyPage slug={route.slug} /> : <HomePage />}
       </main>
 

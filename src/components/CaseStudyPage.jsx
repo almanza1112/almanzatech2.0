@@ -100,7 +100,7 @@ const CaseStudyPage = ({ slug }) => {
       <section className="case-cta" aria-labelledby="case-cta-title">
         <h2 id="case-cta-title">{CASE_PAGE_COPY.heading}</h2>
         <a
-          className="btn"
+          className="btn btn--ink"
           href={CASE_PAGE_COPY.cta.href}
           onClick={() => trackClick(CASE_PAGE_COPY.cta.label)}
         >
